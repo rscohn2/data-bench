@@ -1,0 +1,51 @@
+#
+#   Copyright 2017 Intel Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#    
+# stand up cluster master
+- hosts: master
+  remote_user: root
+  vars:
+    token: "--token={{k8s_token}}"
+    pod_cidr: --pod-network-cidr=10.244.0.0/16
+    apiserver_port: "--apiserver-bind-port={{k8s_port}}"
+    token_ttl: --token-ttl=0
+    kargs: "{{token}} {{pod_cidr}} {{apiserver_port}} {{token_ttl}}"
+    proxy_host: http://proxy-chain.intel.com
+    http_port: 911
+    https_port: 912
+    proxy:
+      HTTP_PROXY: "{{proxy_host}}:{{http_port}}"
+      HTTPS_PROXY: "{{proxy_host}}:{{https_port}}"
+      NO_PROXY: "134.134.101.200,1.1.1.200,1.1.1.201,1.1.1.202,1.1.1.203,1.1.1.204,1.1.1.205,.intel.com"
+  tasks:
+    - name: Reset Previous Kubernetes
+      command: kubeadm reset
+      ignore_errors: true
+      tags: master-init
+    - name: Initialize Kubernetes Master
+      command: "kubeadm init {{kargs}}"
+      environment: "{{proxy}}"
+      tags: master-init
+      # XXX broken, blows up if /root/.kube DNE
+    - name: Setup root kubectl configuration
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /root/.kube/config
+        remote_src: True
+      tags: kubectl_config
+      
+    
+        
+        

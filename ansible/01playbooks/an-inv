@@ -1,0 +1,16 @@
+[master]
+gojira.an.intel.com
+
+
+[all:vars]
+k8s_token=foobar.1011101110111011
+k8s_port=6443
+
+[minions]
+mtdew.an.intel.com
+schwa.an.intel.com
+#patience.an.intel.com
+
+[minions:vars]
+k8s_master=gojira.an.intel.com
+

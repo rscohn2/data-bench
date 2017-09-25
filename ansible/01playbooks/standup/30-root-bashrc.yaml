@@ -1,0 +1,44 @@
+#
+#   Copyright 2017 Intel Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#    
+---
+- hosts: all
+  remote_user: root
+  vars:
+    proxy: http://proxy-chain.intel.com
+    http_proxy: "{{proxy}}:911"
+    https_proxy: "{{proxy}}:912"
+    cluster_list: "134.134.101.120,1.1.1.200,1.1.1.201,1.1.1.202,1.1.1.203,1.1.1.204,1.1.1.205"
+  tasks:
+    - name: Comment Out Root Aliases for rm, cp and mv from /root/.bashrc
+      replace:
+        path: /root/.bashrc
+        regexp: '(^alias\s+[rmc][mvp]=)'
+        replace: '#\1'
+    - name: add HTTP_PROXY environment to /root/.bashrc
+      lineinfile:
+        path: /root/.bashrc
+        regexp: '^export\s+HTTP_PROXY='
+        line: "export HTTP_PROXY={{http_proxy}}"
+    - name: add HTTPS_PROXY environment to /root/.bashrc
+      lineinfile:
+        path: /root/.bashrc
+        regexp: '^export\s+HTTPS_PROXY='
+        line: "export HTTPS_PROXY={{https_proxy}}"
+    - name: add NO_PROXY environment to /root/.bashrc
+      lineinfile:
+        path: /root/.bashrc
+        regexp: '^export\s+NO_PROXY='
+        line: "export NO_PROXY={{cluster_list}},.intel.com"

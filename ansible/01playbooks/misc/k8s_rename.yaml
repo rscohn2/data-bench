@@ -1,0 +1,51 @@
+#
+#   Copyright 2017 Intel Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#    
+---
+- hosts: master
+  remote_user: root
+  vars:
+    k8s_server: https://gojira.an.intel.com
+    k8s_port: 6443
+    k8s_config: /etc/kubernetes
+    files: [ admin.conf, controller-manager.conf, scheduler.conf ]
+  tasks:
+    - name: "Rename server: entries in kubernetes config files"
+      lineinfile:
+        path: "{{k8s_config}}/{{item}}"
+        regexp: '(^\s+)server: '
+        line: '\1server: "{{k8s_server}}:{{k8s_port}}"'
+      with_items: "{{files}}"
+      
+- hosts: all
+  remote_user: root
+  vars:
+    k8s_server: https://gojira.an.intel.com
+    k8s_port: 6443
+    k8s_config: /etc/kubernetes
+    files: [ kubelet.conf ]
+  tasks:
+    - name: "Rename server: entries in kubernetes config files"
+      lineinfile:
+        path: "{{k8s_config}}/{{item}}"
+        regexp: '(^\s+)server: '
+        line: '\1server: "{{k8s_server}}:{{k8s_port}}"'
+      with_items: "{{files}}"
+      
+    - name: Systemctl Daemon Reload
+      command: systemctl daemon-reload
+
+    - name: Restart Kubelet
+      service: name=kubelet state=restarted
