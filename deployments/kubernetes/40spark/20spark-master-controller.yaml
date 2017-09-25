@@ -31,7 +31,7 @@ spec:
         use: spark-master
       containers:
         - name: spark-master
-          image: hub.docker.intel.com/eoshaugh/spark-master
+          image: docker.io/eoshaugh/spark-master
           ports:
             - containerPort: 7077
             - containerPort: 8080
