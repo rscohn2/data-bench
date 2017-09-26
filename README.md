@@ -17,6 +17,8 @@
 -->
 # Data Bench
 
+![Logo](https://github.com/data-bench/data-bench/raw/master/images/DataBench001.png)
+
 ## Overview
 
 Data Bench is a brand new data-centric workload that Intel wants to
