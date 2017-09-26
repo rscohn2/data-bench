@@ -133,7 +133,7 @@ Great! The hard part is done, it's time to deploy Data Bench!
 0. **Clone this repository**
 
 	```
-	$ git clone https://github.com/INTEL_ORG_TDB/databench
+	$ git clone https://github.com/Data-Bench/data-bench
 	```
 
 0. **Finish Configuring Cluster Nodes**
@@ -209,9 +209,9 @@ Great! The hard part is done, it's time to deploy Data Bench!
 [6]: https://kafka.apache.org
 [7]: https://spark.apache.org
 [8]: https://cassandra.apache.org
-[9]: http://github.com/INTEL_ORG_TBD/databench-containers
-[10]: http://github.com/INTEL_ORG_TBD/databench-data
-[11]: http://github.com/INTEL_ORG_TBD/databench-python
+[9]: http://github.com/Data-Bench/data-bench-containers
+[10]: http://github.com/Data-Bench/data-bench-data
+[11]: http://github.com/Data-Bench/data-bench-python
 [12]: https://docs.docker.com/docker-cloud/cloud-swarm/
 [13]: http://docs.ansible.com/ansible/latest/playbooks.html
 [14]: http://docs.ansible.com/ansible/latest/inventory.html
@@ -219,6 +219,6 @@ Great! The hard part is done, it's time to deploy Data Bench!
 [16]: https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/
 [17]: https://kafka.apache.org/documentation/
 [18]: https://coreos.com/flannel/docs/latest/
-[19]: https://github.com/INTEL_ORG_TBD/databench
+[19]: https://github.com/Data-Bench/data-bench
 [fowler0]: https://where-ever-fowlers-document-lands
 
