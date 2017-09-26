@@ -1,0 +1,18 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: data-bench-consumers
+  labels:
+    cat: generators
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: data-bench
+        cat: consumer
+    spec:
+      containers:
+        - name: marketstream-consumer
+          image: docker.io/eoshaugh/marketstream-consumer
