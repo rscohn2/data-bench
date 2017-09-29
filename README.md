@@ -17,7 +17,7 @@
 -->
 # Data Bench
 
-![Logo](https://github.com/data-bench/data-bench/raw/master/images/DataBench001.png)
+![Logo](https://github.com/data-bench/data-bench/raw/master/images/DataBench002.png)
 
 ## Overview
 
