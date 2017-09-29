@@ -178,8 +178,11 @@ So you want data for data-bench?
 	```
         $ cd /var/lib/cassandra/BUILD
 	```
-0. **Run the creation script making sure to specify the location of the flat files**
-
+0. **Run the creation script making sure to specify the location of the flat files.
+     In the below example, the flat file directory is specified.** 
+     
+     **<i>The flat file directory is a required argument for loading the database</i>**
+     
 	```
 	$ ./databench_build.sh --all /var/lib/cassandra/flat
 	```
