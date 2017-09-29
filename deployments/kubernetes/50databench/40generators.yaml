@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: marketstream
-          image: docker.io/eoshaugh/marketstream-generator:latest
+          image: hub.docker.intel.com/eoshaugh/marketstream-generator
         - name: customervaluation
-          image: docker.io/eoshaugh/customervaluation-generator:latest
+          image: hub.docker.intel.com/eoshaugh/customervaluation-generator

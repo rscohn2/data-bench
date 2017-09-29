@@ -15,4 +15,4 @@ spec:
     spec:
       containers:
         - name: marketstream-consumer
-          image: docker.io/eoshaugh/marketstream-consumer
+          image: hub.docker.intel.com/eoshaugh/marketstream-consumer
