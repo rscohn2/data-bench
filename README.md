@@ -17,7 +17,7 @@
 -->
 # Data Bench
 
-![Logo](https://github.com/data-bench/data-bench/raw/master/images/DataBench002.png)
+![Logo]([logo])
 
 ## Overview
 
@@ -225,4 +225,5 @@ Great! The hard part is done, it's time to deploy Data Bench!
 [18]: https://coreos.com/flannel/docs/latest/
 [19]: https://github.com/Data-Bench/data-bench
 [fowler0]: https://where-ever-fowlers-document-lands
+[logo]: https://github.com/data-bench/data-bench/raw/master/images/Data-Bench-Logo.png
 
