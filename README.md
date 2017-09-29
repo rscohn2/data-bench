@@ -55,24 +55,24 @@ Data Bench leverages a variety of Open Source technologies:
 
 To that powerful mix, we add:
 
-* [databench][19]
+* [data-bench][19]
 
 	This repo :) It contains the orchestration configuration to
 	deploy Data Bench to a Kubernetes cluster (for now) as well
 	as some handy [ansible][15] playbooks to make configuring
 	your cluster a little easier.
 
-* [databench-containers][9]
+* [data-bench-containers][9]
 
 	All the build infrastructure for the Docker images used in Data
 	Bench.
 
-* [databench-data][10]
+* [data-bench-data][10]
 
 	The initial data set. We've baked it into the containers (except
 	for the database). If you want to see the data, it's here.
 
-* [databench-python][11]
+* [data-bench-python][11]
 
 	Finally, we've written a python3 module focused on enabling the
 	development of python Data Bench transaction generators and
@@ -147,16 +147,16 @@ Great! The hard part is done, it's time to deploy Data Bench!
 0. **Deploy Infrastructure Containers**
 
 	```
-	$ kubectl create -f databench/deployment/kubernetes/10flannel
-	$ kubectl create -f databench/deployment/kubernetes/30kafka
-	$ kubectl create -f databench/deployment/kubernetes/40cassandra
-	$ kubectl create -f databench/deployment/kubernetes/50spark
+	$ kubectl create -f data-bench/deployment/kubernetes/AAkafka
+	$ kubectl create -f data-bench/deployment/kubernetes/BBcassandra
+	$ kubectl create -f data-bench/deployment/kubernetes/CCspark
+
 	```
 
 0. **Deploy Data Bench Workload Containers**
 
 	```
-	$ kubectl create -f databench/deployment/kubernetes/60databench
+	$ kubectl create -f data-bench/deployment/kubernetes/ZZworkload
 	```
 
 0. **Verify Containers**
@@ -166,6 +166,8 @@ Great! The hard part is done, it's time to deploy Data Bench!
 	```
 
 ## Using Data Bench
+
+### Loading Cassandra Database
 
 ### Running Data Bench
 
