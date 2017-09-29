@@ -169,6 +169,28 @@ Great! The hard part is done, it's time to deploy Data Bench!
 
 ### Loading Cassandra Database
 
+So you want data for data-bench?
+
+0. **Log into the cassandra container**
+
+0. **Proceed to the cassandra build directory**
+
+	```
+        $ cd /var/lib/cassandra/BUILD
+	```
+0. **Run the creation script making sure to specify the location of the flat files**
+
+	```
+	$ ./databench_build.sh --all /var/lib/cassandra/flat
+	```
+0. **Alternatively, if the need arises one can create/drop/load the schema one step at a time**
+	
+	```
+	$ ./databench_build.sh --create
+	$ ./databench_build.sh --load /var/lib/cassandra/flat
+	$ ./databench_build.sh --drop
+	```
+
 ### Running Data Bench
 
 ### Monitoring Data Bench
