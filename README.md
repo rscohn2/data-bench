@@ -15,8 +15,6 @@
    limitations under the License.
     
 -->
-# Data Bench
-
 ![Data Bench Logo](https://github.com/data-bench/data-bench/raw/master/images/Data_Bench_320x248.png)
 
 ## Overview
@@ -87,6 +85,8 @@ How much hardware, how much storage, what sorts of network interconnects?
 
 #### Hardware
 
+XXX
+
 What sort of minimum hardware requirements: node counts, CPUs, etc
 
 We used six machines:
@@ -97,22 +97,25 @@ We used six machines:
 - generator specific node
 - consumers tied to spark-master node?
 - kubernetes master node with
- 
 
 #### Software
+
+XXX
 
 What sort of software is required before we start talking about
 running Data Bench
 
 - Base operating system: we used Centos 7
 - Docker - we used Centos docker distribution
-  ansible playbooks for setting up the centos yum repos and proxy info
+- ansible playbooks for setting up the centos yum repos and proxy info
 - Kubernetes - version 1.7 installed via kubeadm
 - Nice to Have:
   - time synchronized hosts via ntp, ansible playbook
   
   
 #### Storage
+
+XXX
 
 Talk about data storage requirements here.
 
@@ -257,7 +260,15 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 
 ## Contact
 
+Team email contact: erik.oshaughnessy@intel.com
+
+Open issues and we would love to engage in discussions with you on how
+to make Data Bench better. @core will get the whole team's attention.
+
+<!--
 Send mail to Data-Bench@Intel.COM, we will write back!
+Not strictly true yet.
+-->
 
 ## FAQ
 
