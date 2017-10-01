@@ -15,7 +15,9 @@
    limitations under the License.
     
 -->
-![Data Bench Logo](https://github.com/data-bench/data-bench/raw/master/images/Data_Bench_320x248.png)
+# Data Bench
+
+![Data Bench Logo](https://github.com/data-bench/data-bench/raw/master/images/Data-Bench-Logo.png)
 
 ## Overview
 
@@ -53,19 +55,19 @@ Data Bench leverages a variety of Open Source technologies:
 1. [Apache Spark][7] - Large-scale Data Processing Engine
 1. [Apache Cassandra][8] - Database Store
 
-To that powerful mix, we add:
+To that powerful set of Open Source goodness, we add:
 
 * [data-bench][19]
 
-	This repo :) It contains the orchestration configuration to
-	deploy Data Bench to a Kubernetes cluster (for now) as well
-	as some handy [ansible][15] playbooks to make configuring
-	your cluster a little easier.
+	This repo :) It contains the orchestration configuration to deploy
+	Data Bench to a Kubernetes cluster. It also houses some
+	handy [ansible][15] playbooks to make configuring your cluster a
+	little easier.
 
 * [data-bench-containers][9]
 
 	All the build infrastructure for the Docker images used in Data
-	Bench.
+	Bench. This where the transaction consumers and generators live.
 
 * [data-bench-data][10]
 
@@ -75,10 +77,9 @@ To that powerful mix, we add:
 * [data-bench-python][11]
 
 	Finally, we've written a python3 module focused on enabling the
-	development of python Data Bench transaction generators and
-	consumers. I know, it's a Java-centric benchmark driven by Python.
-	Welcome to the future.
-	
+	development of python Data Bench transaction generators. The
+	consumers rely on Apache Spark's pyspark which python2 based <!--
+	XXX fact check --> which we'll need to work around.
 
 ## Installation
 
@@ -158,8 +159,8 @@ we are here to help!
 	$ ansible -i [inventory] all -m ping
 
 	```
-<!-- need to talk about the ansible inventory here too -->
-
+    XXX need to talk about the ansible inventory here too
+	
 0. Finally, install Kubernetes using [kubeadm][2]. 
 
    Go ahead, we'll wait.
@@ -207,8 +208,8 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 	
 0. **Load Cassandra Database**
 
-	Follow these [instructions][cassandra-load] to get the Cassandra
-	database loaded with data for the transactions to work against.
+	Follow these [instructions][20] to get the Cassandra database
+	loaded with data for the transactions to work against.
 
 0. **Deploy Data Bench Workload Containers**
 
@@ -222,47 +223,10 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 	$ kubectl get pods --all-namespaces
 	```
 	
-0. **
-	
 
 ## Using Data Bench
 
 
-### Loading Cassandra Database
-
-Wait, things are working! The Cassandra database needs to be loaded
-with data for the transactions to work against. 
-
-In the future we expect this part to become obsolete, but for now this
-is how we recommend loading the Cassandra database.
-
-0. **Log into the cassandra container**
-
-	```
-	$ kubectl exec cassandra-0 -it -- /bin/bash
-	```
-
-0. **Proceed to the cassandra build directory**
-
-	```
-    $ cd /var/lib/cassandra/BUILD
-	```
-	
-0. **Run the creation script**
-	Make sure to specify the location of the flat files.
-    In the below example, the flat file directory is specified.
-     **<i>The flat file directory is a required argument for loading the database</i>**
-     
-	```
-	$ ./databench_build.sh --all /var/lib/cassandra/flat
-	```
-0. **Alternatively, you can create/drop/load the schema one step at a time:**
-	
-	```
-	$ ./databench_build.sh --create
-	$ ./databench_build.sh --load /var/lib/cassandra/flat
-	$ ./databench_build.sh --drop
-	```
 
 ### Running Data Bench
 
