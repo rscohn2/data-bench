@@ -21,23 +21,25 @@
 
 ## Overview
 
-Data Bench is a brand new data-centric workload that Intel wants to
-grow into an industry accepted benchmark tool. And we want your
-help! Kick the tires, tell us what we got right. More importantly,
-tell us (gently) what we got wrong so we can fix it together.
+Data Bench is a new Open Source licensed data-centric workload that
+Intel wants to grow into an industry accepted benchmark tool. And we
+want your help! Kick the tires, tell us what we got right. More
+importantly, tell us (_gently_) what we got wrong so we can fix it
+together.
 
 Technology-wise, Data Bench is a set of Docker images deployed to your
 favorite cluster orchestration layer (as long as it's Kubernetes!)
 that moves transactions through various Open Source components to
 induce CPU and I/O loads on cluster nodes.
 
-Data Bench is an early proof of concept and we are actively requesting
-your feedback and comments. Further enhancements will be released as
-quick as we get them done, driving towards a full-featured benchmark
-that models modern workloads.
+Today, Data Bench is an early proof of concept and we are actively
+requesting your feedback and comments. Further enhancements will be
+released as quick as we get them done, driving towards a full-featured
+benchmark that models modern workloads.
 
-More information on Data Bench and it's likely direction can be
-found [here][fowler0]. 
+Our [white paper][whitepaper] has more nitty gritty information on the
+workload and the future directions we see for Data Bench.
+
 
 ### Software Architecture
 
@@ -82,19 +84,48 @@ To that powerful mix, we add:
 
 ## Installation
 
-### Cluster Planning
+### Cluster Resource Planning
 #### Hardware
 <!--
 What sort of minimum hardware requirements: node counts, CPUs, etc
+We used six machines:
+ cassandra specific node
+ kafka/zookeeper specific node
+ spark-master specific node
+ spark-worker specific node
+ generator specific node
+ consumers tied to spark-master node?
+ kubernetes master node with
+ 
+ maybe generators on k8s master
+	   consumers on previous generators node?
+ 
 -->
 #### Software
 <!--
 What sort of software is required before we start talking about
 running Data Bench
+
+- Base operating system: we used Centos 7
+- Docker - we used Centos docker distribution
+  ansible playbooks for setting up the centos yum repos and proxy info
+- Kubernetes - version 1.7 installed via kubeadm
+- Nice to have:
+  time synchronized hosts via ntp, ansible playbook
+  
+
 -->
 #### Storage
 <!--
 Talk about data storage requirements here.
+
+Cassandra local persistent (fast) storage, need sizing info
+Kafka/Zookeeper local persistent storage, need sizing info
+Spark Master: unknown
+Spark Worker: unknown
+generators: none
+consumers: none
+
 -->
 
 ### Software Prequisites
@@ -116,7 +147,10 @@ we are here to help!
 
    **Note**: Python3 was used for development and Python2 was not tested.
 
-0. First, install [Ansible][15] and set up password-less ssh:
+0. Next, install [Ansible][15] and set up password-less ssh:
+
+   We found ansible be to super helpful coordinating the configuration
+   and installation of cluster hardware.
 
 	```
 	$ pip install ansible
@@ -124,15 +158,19 @@ we are here to help!
 	$ ssh-copy-id hostB
 	...
 	$ ansible -i [inventory] all -m ping
-	```
 
-0. Now, install Kubernetes using [kubeadm][2].
+	```
+<!-- need to talk about the ansible inventory here too -->
+
+0. Finally, install Kubernetes using [kubeadm][2]. 
+
+   Go ahead, we'll wait.
 
 ### Data Bench Deployment
 
-Great! The hard part is done, it's time to deploy Data Bench!
+You are back! The hard part is done, it's time to deploy Data Bench!
 
-0. **Clone this repository**
+0. **Clone This Repository**
 
 	```
 	$ git clone https://github.com/Data-Bench/data-bench
@@ -140,11 +178,27 @@ Great! The hard part is done, it's time to deploy Data Bench!
 
 0. **Finish Configuring Cluster Nodes**
 
+	XXX FIXME
+
+	This is the part where we talk about labeling the nodes in the
+	cluster with kubernetes labels so each of the contains knows which
+	node to run on. 
+	cassandra -> use=cassandra
+	spark-master -> use=spark-master
+	spark-worker -> use=spark-worker
+	kafka -> use-kafka
+	generators -> forgot
+	consumers -> forgot, maybe use-spark-master?
+	
+	This builds upon work done up front in cluster resource planning.
+
 	```
 	$ ansible-playbook -i [inventory] TBD
 	```
 
 0. **Deploy Infrastructure Containers**
+
+	XXX FIXME AA, BB, CC, ZZ
 
 	```
 	$ kubectl create -f data-bench/deployment/kubernetes/AAkafka
@@ -152,6 +206,11 @@ Great! The hard part is done, it's time to deploy Data Bench!
 	$ kubectl create -f data-bench/deployment/kubernetes/CCspark
 
 	```
+	
+0. **Load Cassandra Database**
+
+	Follow these [instructions][cassandra-load] to get the Cassandra
+	database loaded with data for the transactions to work against.
 
 0. **Deploy Data Bench Workload Containers**
 
@@ -164,29 +223,42 @@ Great! The hard part is done, it's time to deploy Data Bench!
 	```
 	$ kubectl get pods --all-namespaces
 	```
+	
+0. **
+	
 
 ## Using Data Bench
 
+
 ### Loading Cassandra Database
 
-So you want data for data-bench?
+Wait, things are working! The Cassandra database needs to be loaded
+with data for the transactions to work against. 
+
+In the future we expect this part to become obsolete, but for now this
+is how we recommend loading the Cassandra database.
 
 0. **Log into the cassandra container**
+
+	```
+	$ kubectl exec cassandra-0 -it -- /bin/bash
+	```
 
 0. **Proceed to the cassandra build directory**
 
 	```
-        $ cd /var/lib/cassandra/BUILD
+    $ cd /var/lib/cassandra/BUILD
 	```
-0. **Run the creation script making sure to specify the location of the flat files.
-     In the below example, the flat file directory is specified.** 
-     
+	
+0. **Run the creation script**
+	Make sure to specify the location of the flat files.
+    In the below example, the flat file directory is specified.
      **<i>The flat file directory is a required argument for loading the database</i>**
      
 	```
 	$ ./databench_build.sh --all /var/lib/cassandra/flat
 	```
-0. **Alternatively, if the need arises one can create/drop/load the schema one step at a time**
+0. **Alternatively, you can create/drop/load the schema one step at a time:**
 	
 	```
 	$ ./databench_build.sh --create
@@ -216,8 +288,9 @@ So you want data for data-bench?
 
 ### Proxy HOWTO
 
-
 ## Contact
+<!-- need a markdown style email link? -->
+Data-Bench@Intel.COM
 
 ## FAQ
 
@@ -225,10 +298,12 @@ So you want data for data-bench?
 **A1**: We had to pick one to start with. We picked kubernetes.
 <br>
 
+<!-- Q/A entry
 **Q2**: <br>
 **A2**:
 <br>
-
+ -->
+ 
 [0]: http://intel.com
 [1]: http://kubernetes.io
 [2]: http://centos.org
@@ -249,6 +324,6 @@ So you want data for data-bench?
 [17]: https://kafka.apache.org/documentation/
 [18]: https://coreos.com/flannel/docs/latest/
 [19]: https://github.com/Data-Bench/data-bench
-[fowler0]: https://where-ever-fowlers-document-lands
-[logo]: 
+[whitepaper]: https://where-ever-white-paper-lands
+[20]: https://github.com/Data-Bench/data-bench/docs/howto-cassandra-load.md
 
