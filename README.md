@@ -15,8 +15,6 @@
    limitations under the License.
     
 -->
-# Data Bench
-
 ![Data Bench Logo](https://github.com/data-bench/data-bench/raw/master/images/Data_Bench_320x248.png)
 
 ## Overview
