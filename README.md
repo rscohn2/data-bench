@@ -37,9 +37,8 @@ requesting your feedback and comments. Further enhancements will be
 released as quick as we get them done, driving towards a full-featured
 benchmark that models modern workloads.
 
-Our [white paper][whitepaper] has more nitty gritty information on the
+Our [white paper][25] has more nitty-gritty information on the
 workload and the future directions we see for Data Bench.
-
 
 ### Software Architecture
 
@@ -77,31 +76,31 @@ To that powerful set of Open Source goodness, we add:
 * [data-bench-python][11]
 
 	Finally, we've written a python3 module focused on enabling the
-	development of python Data Bench transaction generators. The
-	consumers rely on Apache Spark's pyspark which python2 based <!--
-	XXX fact check --> which we'll need to work around.
+	development of python Data Bench transaction generators and
+	consumers.
 
 ## Installation
 
 ### Cluster Resource Planning
+
+How much hardware, how much storage, what sorts of network interconnects?
+
 #### Hardware
-<!--
+
 What sort of minimum hardware requirements: node counts, CPUs, etc
+
 We used six machines:
- cassandra specific node
- kafka/zookeeper specific node
- spark-master specific node
- spark-worker specific node
- generator specific node
- consumers tied to spark-master node?
- kubernetes master node with
+- cassandra specific node
+- kafka/zookeeper specific node
+- spark-master specific node
+- spark-worker specific node
+- generator specific node
+- consumers tied to spark-master node?
+- kubernetes master node with
  
- maybe generators on k8s master
-	   consumers on previous generators node?
- 
--->
+
 #### Software
-<!--
+
 What sort of software is required before we start talking about
 running Data Bench
 
@@ -109,23 +108,21 @@ running Data Bench
 - Docker - we used Centos docker distribution
   ansible playbooks for setting up the centos yum repos and proxy info
 - Kubernetes - version 1.7 installed via kubeadm
-- Nice to have:
-  time synchronized hosts via ntp, ansible playbook
+- Nice to Have:
+  - time synchronized hosts via ntp, ansible playbook
   
-
--->
+  
 #### Storage
-<!--
+
 Talk about data storage requirements here.
 
-Cassandra local persistent (fast) storage, need sizing info
-Kafka/Zookeeper local persistent storage, need sizing info
-Spark Master: unknown
-Spark Worker: unknown
-generators: none
-consumers: none
+- Cassandra local persistent (fast) storage, need sizing info
+- Kafka/Zookeeper local persistent storage, need sizing info
+- Spark Master: unknowdn
+- Spark Worker: unknown
+- generators: none
+- consumers: none
 
--->
 
 ### Software Prequisites
 
@@ -148,8 +145,10 @@ we are here to help!
 
 0. Next, install [Ansible][15] and set up password-less ssh:
 
-   We found ansible be to super helpful coordinating the configuration
-   and installation of cluster hardware.
+   We found ansible be to extraordinarily helpful coordinating the
+   configuration and installation of cluster hardware. You can skip
+   it if you like logging into all your cluster hosts and typing the
+   same command a lot.
 
 	```
 	$ pip install ansible
@@ -163,7 +162,12 @@ we are here to help!
 	
 0. Finally, install Kubernetes using [kubeadm][2]. 
 
-   Go ahead, we'll wait.
+   We used these instructions to bring up our cluster, just make sure
+   to pay attention to the bits about installing the cluster network
+   fabric. We recommend using flannel, so you'll need to pass an extra
+   argument to **kubeadm** when you create the master.  We messed it
+   up the first time, just trying to pass on some of our hard earned
+   knowledge.
 
 ### Data Bench Deployment
 
@@ -173,21 +177,22 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 
 	```
 	$ git clone https://github.com/Data-Bench/data-bench
+	$ cd data-bench/
+	$ ls -lR 
+	<omg so many files>
 	```
-
 0. **Finish Configuring Cluster Nodes**
 
-	XXX FIXME
-
+	**XXX needs to be more better**
 	This is the part where we talk about labeling the nodes in the
 	cluster with kubernetes labels so each of the contains knows which
 	node to run on. 
-	cassandra -> use=cassandra
-	spark-master -> use=spark-master
-	spark-worker -> use=spark-worker
-	kafka -> use-kafka
-	generators -> forgot
-	consumers -> forgot, maybe use-spark-master?
+	- cassandra -> use=cassandra
+	- spark-master -> use=spark-master
+	- spark-worker -> use=spark-worker
+	- kafka -> use-kafka
+	- generators -> forgot
+	- consumers -> forgot, maybe use-spark-master?
 	
 	This builds upon work done up front in cluster resource planning.
 
@@ -197,8 +202,7 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 
 0. **Deploy Infrastructure Containers**
 
-	XXX FIXME AA, BB, CC, ZZ
-
+	** XXX AA, BB, CC, ZZ**
 	```
 	$ kubectl create -f data-bench/deployment/kubernetes/AAkafka
 	$ kubectl create -f data-bench/deployment/kubernetes/BBcassandra
@@ -213,6 +217,7 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 
 0. **Deploy Data Bench Workload Containers**
 
+	XXX fix ZZ
 	```
 	$ kubectl create -f data-bench/deployment/kubernetes/ZZworkload
 	```
@@ -222,11 +227,8 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 	```
 	$ kubectl get pods --all-namespaces
 	```
-	
 
 ## Using Data Bench
-
-
 
 ### Running Data Bench
 
@@ -234,25 +236,28 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 
 ### Stopping Data Bench
 
+### What's Next?
+
 ## Notes
 
 ### Development Cluster Software
 
-<!-- need links for all these things -->
+ **XXX** X.Y.Z versions need to be tracked down
+ 
 * [Centos 7][2] minimal install on all cluster nodes
-* kubernetes 1.7 installed with kubeadm 
-* flannel container network fabric
-* Big Data Europe 2020:Apache Spark 2.2.0
-* Apache Kafka 0.11.0
-* Apache Cassandra X.Y.Z
-* Spark Kafka Connector X.Y.Z
-* Spark Cassandra Connector X.Y.Z
+* [kubernetes 1.7][1] installed with [kubeadm][3]
+* [flannel][18] container network fabric
+* [Big Data Europe 2020:Apache Spark Master 2.2.0][21]
+* [Big Data Europe 2020:Apache Spark Worker 2.2.0][22]
+* [Apache Kafka 0.11.0][6]
+* [Apache Cassandra X.Y.Z][8]
+* [Spark Kafka Connector X.Y.Z][23]
+* [Spark Cassandra Connector X.Y.Z][24]
 
-### Proxy HOWTO
 
 ## Contact
-<!-- need a markdown style email link? -->
-Data-Bench@Intel.COM
+
+Send mail to Data-Bench@Intel.COM, we will write back!
 
 ## FAQ
 
@@ -286,6 +291,9 @@ Data-Bench@Intel.COM
 [17]: https://kafka.apache.org/documentation/
 [18]: https://coreos.com/flannel/docs/latest/
 [19]: https://github.com/Data-Bench/data-bench
-[whitepaper]: https://where-ever-white-paper-lands
-[20]: https://github.com/Data-Bench/data-bench/docs/howto-cassandra-load.md
-
+[20]: https://github.com/Data-Bench/data-bench-data/docs/howto-cassandra-load.md
+[21]: https://hub.docker.com/r/bde2020/spark-master/
+[22]: https://hub.docker.com/r/bde2020/spark-worker/
+[23]: XXX spark kafka connnector
+[24]: XXX spark cassandra connector
+[25]: XXX https://where-ever-white-paper-lands
