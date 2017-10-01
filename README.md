@@ -305,6 +305,6 @@ Not strictly true yet.
 [20]: https://github.com/Data-Bench/data-bench-data/docs/howto-cassandra-load.md
 [21]: https://hub.docker.com/r/bde2020/spark-master/
 [22]: https://hub.docker.com/r/bde2020/spark-worker/
-[23]: XXX spark kafka connnector
-[24]: XXX spark cassandra connector
-[25]: XXX https://where-ever-white-paper-lands
+[23]: https://spark-kafka-connnector-url
+[24]: https://spark-cassandra-connector-url
+[25]: https://where-ever-white-paper-lands
