@@ -233,24 +233,34 @@ Since you have deployed the Data Bench Workload containers, the workload is runn
 The MARKET-STREAM transction publishes via a 'MARKET-STREAM' Kafka topic, you can view this topic using:
 ```
  $ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic MARKET-STREAM --from-beginning
-```
-The CUSTOMER-VALUATION transaction returns results via a 'CUSTOMER-VALUATION-RESPONSE' Kafka topic, you can view this topic using:
-```
- $ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic CUSTOMER-VALUATION-RESPONSE --from-beginning
+ 
+ MarketStream|774a7be1-656e-41cb-8be4-5743cb151c82|1506974279591|710|161.242|384|HFBAPRD
 ```
 
-The LAST_TRADE table is updated in the CassandraDB and can be viewed using:
+During the MARKET-STREAM transaction, the LAST_TRADE table is updated in the CassandraDB.  An example of verifying transaction completeness would be to use the input data from the kakfa message above and plug it into a cql query:
 ```
 $ cqlsh
 > use customer;
-> SELECT FINISH THIS
+> select * from last_trade where lt_s_symb = 'HFBAPRD';
+
+ lt_s_symb | lt_dts                          | lt_open_price | lt_price | lt_vol
+-----------+---------------------------------+---------------+----------+--------
+   HFBAPRD | 2017-10-02 15:36:21.152000+0000 |         27.37 |  161.242 |    384
 ```
 
+The CUSTOMER-VALUATION transaction returns results via a 'CUSTOMER-VALUATION-RESPONSE' Kafka topic, you can view this topic using:
+```
+ $ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic CUSTOMER-VALUATION-RESPONSE --from-beginning
+
+CUSTOMER-VALUATION-RESPONSE|e93c60dd-b9d5-4a3b-b5a2-36267a69d8bd|1506901253327|0|f0804957-b81c-406a-87bd-443b6d20720c|Klingensmith|Stephen|G|7427905.680000000000000000|ACCT_0|43000037621|Stephen Klingensmith Business Account|5138928.850000000000000000|5138928.850000000000000000|SYMB_0|ISON|-3800|-787282.400000000000000000|-97217.000000000000000000|SYMB_1|SHLM|-5100|-893508.000000000000000000|-130929.000000000000000000|SYMB_2|HTBK|-2500|-692509.000000000000000000|-62351.000000000000000000|SYMB_3|COBZPRB|-10200|-3519504.000000000000000000|-262809.000000000000000000|SYMB_4|XTRM|-800|-44544.400000000000000000|-22354.000000000000000000|SYMB_5|ARTW|1500|42374.500000000000000000|34883.000000000000000000|SYMB_6|AEG|3200|540193.800000000000000000|75547.000000000000000000|SYMB_7|FNBN|5900|1816734.900000000000000000|139357.000000000000000000|SYMB_8|DELL|1100|282311.200000000000000000|32181.000000000000000000
+
+```
 
 ### Stopping Data Bench
-	```
-	$ kubectl create -f data-bench/deployments/kubernetes/50databench
-	```
+
+```
+$ kubectl create -f data-bench/deployments/kubernetes/50databench
+```
 <!--
 ### What's Next?
 -->
