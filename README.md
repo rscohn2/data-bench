@@ -264,6 +264,7 @@ Open issues and we would love to engage in discussions with you on how
 to make Data Bench better. @core will get the whole team's attention.
 
 <!--
+@core will get the whole team's attention.
 Send mail to Data-Bench@Intel.COM, we will write back!
 Not strictly true yet.
 -->
