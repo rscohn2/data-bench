@@ -205,11 +205,10 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 
 0. **Deploy Infrastructure Containers**
 
-	** XXX AA, BB, CC, ZZ**
 	```
-	$ kubectl create -f data-bench/deployment/kubernetes/AAkafka
-	$ kubectl create -f data-bench/deployment/kubernetes/BBcassandra
-	$ kubectl create -f data-bench/deployment/kubernetes/CCspark
+	$ kubectl create -f data-bench/deployments/kubernetes/20kafka
+	$ kubectl create -f data-bench/deployments/kubernetes/30cassandra
+	$ kubectl create -f data-bench/deployments/kubernetes/40spark
 
 	```
 	
@@ -220,9 +219,8 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 
 0. **Deploy Data Bench Workload Containers**
 
-	XXX fix ZZ
 	```
-	$ kubectl create -f data-bench/deployment/kubernetes/ZZworkload
+	$ kubectl create -f data-bench/deployments/kubernetes/50databench
 	```
 
 0. **Verify Containers**
@@ -244,8 +242,6 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 ## Notes
 
 ### Development Cluster Software
-
- **XXX** X.Y.Z versions need to be tracked down
  
 * [Centos 7][2] minimal install on all cluster nodes
 * [kubernetes 1.7][1] installed with [kubeadm][3]
