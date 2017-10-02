@@ -71,7 +71,7 @@ To that powerful set of Open Source goodness, we add:
 * [data-bench-data][10]
 
 	The initial data set. We've baked it into the containers (except
-	for the database). If you want to see the data, it's here.
+	for the database, which you will need to load). If you want to see the data, it's [here][26].
 
 * [data-bench-python][11]
 
@@ -306,3 +306,4 @@ Not strictly true yet.
 [23]: http://central.maven.org/maven2/org/apache/spark/spark-streaming-kafka-0-10-assembly_2.11/2.1.0/
 [24]: http://dl.bintray.com/spark-packages/maven/datastax/spark-cassandra-connector/2.0.5-s_2.11/
 [25]: https://where-ever-white-paper-lands
+[26]: http://github.com/Data-Bench/data-bench-data/source/
