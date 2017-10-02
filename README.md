@@ -83,47 +83,42 @@ To that powerful set of Open Source goodness, we add:
 
 #### Hardware
 
-In the test environment six machines were used:
-- cassandra specific node
-- kafka/zookeeper specific node
-- spark-master specific node
-- spark-worker specific node
-- generator specific node
-- consumers co-located on the spark-master node
-- kubernetes master node
+In our develoment environment six machines were used:
+- Cassandra specific node
+- Kafka/Zookeeper specific node
+- Spark-Master specific node
+- Spark-Worker specific node
+- Data bench Consumers co-located on the Spark-Master node
+- Data Bench Generators specific node
+- Kubernetes master node
 
-Bulding block machine consisted of:
+A bulding block node consisted of:
 - 2 socket - Intel®  Xeon®  CPU E5-2699 v4 @ 2.20GHz
 - 256GB RAM
 - 2x 800GB nvme drives
 - 10G ethernet cluster network
 
-This configuration could be replicated on fewer nodes, kafka/spark-worker are currently the most resource intensive nodes.
-
-
+This configuration could be replicated on fewer nodes, however we haven't tested it extensively with fewer than six nodes. The Kafka and Spark-Worker nodes are currently the most resource intensive.
 
 #### Software
 
-Data Bench requires some initial software, known working configuration is listed below.running Data Bench
+Data Bench requires some initial software to be installed on cluster nodes:
 
 - Base operating system: we used Centos 7
 - Docker - we used Centos docker distribution
 - ansible playbooks for setting up the centos yum repos and proxy info
 - Kubernetes - version 1.7 installed via kubeadm
-- Nice to Have:
-  - time synchronized hosts via ntp, ansible playbook
-  
-  
+
 #### Storage
 
-The storage requirements for the current version of Data Bench are quite minimal, due to the limited functionality of the inital release.
+The storage requirements for the current version of Data Bench are quite minimal, mostly due to the limited functionality of the inital release.
 
 - Cassandra local persistent (fast) storage, on the order of 10GB for the demo database.
 - Kafka/Zookeeper local persistent storage, on the order of 10GB.
 - Spark Master: none
 - Spark Worker: local storage, on the order of 100GB.
-- generators: none
-- consumers: none
+- Transaction Generators: none
+- Transaction Consumers: none
 
 
 ### Software Prequisites
@@ -184,24 +179,22 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 	<omg so many files>
 	```
 0. **Finish Configuring Cluster Nodes**
-
-	**XXX needs to be more better**
-	This is the part where we talk about labeling the nodes in the
-	cluster with kubernetes labels so each of the contains knows which
-	node to run on. 
-	- cassandra -> use=cassandra
-	- spark-master -> use=spark-master
-	- spark-worker -> use=spark-worker
-	- kafka -> use-kafka
-	- generators -> forgot
-	- consumers -> forgot, maybe use-spark-master?
 	
-	This builds upon work done up front in cluster resource planning.
-
+	We recommend labeling the nodes in the cluster with kubernetes labels so each of the containers know which
+	node to run on:
+	
 	```
-	$ ansible-playbook -i [inventory] TBD
+	$ kubectl label node hostA use=cassandra
+	$ kubectl label node hostB use=kafka
+	$ kubectl label node hostC use=spark-worker
+	$ kubectl label node hostD use=spark-master
+	$ kubectl label node hostE use=generators
+	$ kubectl label node hostF use=k8smaster
 	```
-
+	
+	It's possible to allow kubernetes to schedule pods on nodes, however effecting
+	a rendezvous with local storage can be tricky. We hope to address this in future releases. 
+	
 0. **Deploy Infrastructure Containers**
 
 	```
