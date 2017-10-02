@@ -29,7 +29,7 @@ this is how we recommend creating the topics.
     $ kubectl exec -it kafka-0 --namespace kafka -- /bin/bash
     ```
 
-1. **Create the topics**
+0. **Create the topics**
 
     The following commands will create the topics, in this case with replication factor 1 and 1 partition, should be adjusted (and scripted) once we get further along
     ZOOKEEPER_SERVICE_HOST / ZOOKEEPER_SERVICE_PORT are both set by default in this environment
@@ -50,7 +50,7 @@ this is how we recommend creating the topics.
     * CUSTOMER-VALUATION-RESPONSE
     * MARKET-STREAM
 
-2. **Test the topics**
+0. **Test the topics**
 
    Using console-consumer:
 
