@@ -39,8 +39,7 @@ this is how we recommend creating the topics.
     $ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic CUSTOMER-VALUATION-REQUEST --replication-factor 1 --partitions 1 
     $ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic CUSTOMER-VALUATION-RESPONSE --replication-factor 1 --partitions 1 
     ```
-    **_Please note that the output of these commands will be mixed in with STDERR/STDOUT from the zookeeper process in this current implementation, so there is some searching needed to find the “output”_
-**
+    **_Please note that the output of these commands will be mixed in with STDERR/STDOUT from the zookeeper process in this current implementation, so there is some searching needed to find the “output”_**
   
     To check that the topics were created properly:
     ```
