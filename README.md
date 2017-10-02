@@ -233,13 +233,19 @@ Since you have deployed the Data Bench Workload containers, the workload is runn
 The MARKET-STREAM transction publishes via a 'MARKET-STREAM' Kafka topic, you can view this topic using:
 ```
  $ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic MARKET-STREAM --from-beginning
+ 
+ MarketStream|774a7be1-656e-41cb-8be4-5743cb151c82|1506974279591|710|161.242|384|HFBAPRD
 ```
 
-During the MARKET-STREAM transaction, the LAST_TRADE table is updated in the CassandraDB and can be viewed using:
+During the MARKET-STREAM transaction, the LAST_TRADE table is updated in the CassandraDB.  An example of verifying transaction completeness would be to use the input data from the kakfa message above and plug it into a cql query:
 ```
 $ cqlsh
 > use customer;
-> select * from last_trade;
+> select * from last_trade where lt_s_symb = 'HFBAPRD';
+
+ lt_s_symb | lt_dts                          | lt_open_price | lt_price | lt_vol
+-----------+---------------------------------+---------------+----------+--------
+   HFBAPRD | 2017-10-02 15:36:21.152000+0000 |         27.37 |  161.242 |    384
 ```
 
 The CUSTOMER-VALUATION transaction returns results via a 'CUSTOMER-VALUATION-RESPONSE' Kafka topic, you can view this topic using:
