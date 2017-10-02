@@ -16,7 +16,7 @@ spec:
         use: spark-master
       containers:
         - name: spark-master
-          image: docker.io/eoshaugh/spark-master
+          image: databench/spark-master
           ports:
             - containerPort: 7077
             - containerPort: 8080
