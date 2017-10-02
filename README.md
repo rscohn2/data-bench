@@ -35,8 +35,10 @@ requesting your feedback and comments. Further enhancements will be
 released as quick as we get them done, driving towards a full-featured
 benchmark that models modern workloads.
 
+<!--
 Our [white paper][25] has more nitty-gritty information on the
 workload and the future directions we see for Data Bench.
+-->
 
 ### Software Architecture
 
@@ -81,29 +83,30 @@ To that powerful set of Open Source goodness, we add:
 
 ### Cluster Resource Planning
 
-How much hardware, how much storage, what sorts of network interconnects?
-
 #### Hardware
 
-XXX
-
-What sort of minimum hardware requirements: node counts, CPUs, etc
-
-We used six machines:
+In the test environment six machines were used:
 - cassandra specific node
 - kafka/zookeeper specific node
 - spark-master specific node
 - spark-worker specific node
 - generator specific node
-- consumers tied to spark-master node?
-- kubernetes master node with
+- consumers co-located on the spark-master node
+- kubernetes master node
+
+Bulding block machine consisted of:
+2 socket - Intel(R) Xeon(R) CPU E5-2699 v4 @ 2.20GHz
+	   256GB RAM
+	   2x 800GB nvme drives
+	   10G ethernet cluster network
+
+This configuration could be replicated on fewer nodes, kafka/spark-worker are currently the most resource intensive nodes.
+
+
 
 #### Software
 
-XXX
-
-What sort of software is required before we start talking about
-running Data Bench
+Data Bench requires some initial software, known working configuration is listed below.running Data Bench
 
 - Base operating system: we used Centos 7
 - Docker - we used Centos docker distribution
@@ -115,14 +118,12 @@ running Data Bench
   
 #### Storage
 
-XXX
+The storage requirements for the current version of Data Bench are quite minimal, due to the limited functionality of the inital release.
 
-Talk about data storage requirements here.
-
-- Cassandra local persistent (fast) storage, need sizing info
-- Kafka/Zookeeper local persistent storage, need sizing info
-- Spark Master: unknowdn
-- Spark Worker: unknown
+- Cassandra local persistent (fast) storage, on the order of 10GB for the demo database.
+- Kafka/Zookeeper local persistent storage, on the order of 10GB.
+- Spark Master: none
+- Spark Worker: local storage, on the order of 100GB.
 - generators: none
 - consumers: none
 
@@ -228,7 +229,7 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 	```
 	$ kubectl get pods --all-namespaces
 	```
-
+<!--
 ## Using Data Bench
 
 ### Running Data Bench
@@ -236,6 +237,7 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 ### Monitoring Data Bench
 
 ### Stopping Data Bench
+-->
 
 ### What's Next?
 
