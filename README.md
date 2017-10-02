@@ -260,7 +260,7 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 
 ## Contact
 
-Team email contact: erik.oshaughnessy@intel.com
+Team email contact: jeff.garelick@intel.com
 
 Open issues and we would love to engage in discussions with you on how
 to make Data Bench better. @core will get the whole team's attention.
