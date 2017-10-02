@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: data-bench-consumers
   labels:
-    cat: generators
+    cat: consumers
 spec:
   replicas: 1
   template:
@@ -14,5 +14,7 @@ spec:
         cat: consumer
     spec:
       containers:
-        - name: marketstream-consumer
-          image: hub.docker.intel.com/eoshaugh/marketstream-consumer
+        - name: marketstream
+          image: databench/marketstream-consumer
+        - name: customervaluation
+          image: databench/customervaluation-consumer
