@@ -95,10 +95,10 @@ In the test environment six machines were used:
 - kubernetes master node
 
 Bulding block machine consisted of:
-2 socket - Intel(R) Xeon(R) CPU E5-2699 v4 @ 2.20GHz
-	   256GB RAM
-	   2x 800GB nvme drives
-	   10G ethernet cluster network
+- 2 socket - Intel(R) Xeon(R) CPU E5-2699 v4 @ 2.20GHz
+- 256GB RAM
+- 2x 800GB nvme drives
+- 10G ethernet cluster network
 
 This configuration could be replicated on fewer nodes, kafka/spark-worker are currently the most resource intensive nodes.
 
