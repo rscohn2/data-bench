@@ -234,18 +234,18 @@ The MARKET-STREAM transction publishes via a 'MARKET-STREAM' Kafka topic, you ca
 ```
  $ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic MARKET-STREAM --from-beginning
 ```
+
+During the MARKET-STREAM transaction, the LAST_TRADE table is updated in the CassandraDB and can be viewed using:
+```
+$ cqlsh
+> use customer;
+> select * from last_trade;
+```
+
 The CUSTOMER-VALUATION transaction returns results via a 'CUSTOMER-VALUATION-RESPONSE' Kafka topic, you can view this topic using:
 ```
  $ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic CUSTOMER-VALUATION-RESPONSE --from-beginning
 ```
-
-The LAST_TRADE table is updated in the CassandraDB and can be viewed using:
-```
-$ cqlsh
-> use customer;
-> SELECT FINISH THIS
-```
-
 
 ### Stopping Data Bench
 	```
