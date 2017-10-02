@@ -35,10 +35,8 @@ requesting your feedback and comments. Further enhancements will be
 released as quick as we get them done, driving towards a full-featured
 benchmark that models modern workloads.
 
-<!--
 Our [white paper][25] has more nitty-gritty information on the
 workload and the future directions we see for Data Bench.
--->
 
 ### Software Architecture
 
@@ -306,5 +304,5 @@ Not strictly true yet.
 [22]: https://hub.docker.com/r/bde2020/spark-worker/
 [23]: http://central.maven.org/maven2/org/apache/spark/spark-streaming-kafka-0-10-assembly_2.11/2.1.0/
 [24]: http://dl.bintray.com/spark-packages/maven/datastax/spark-cassandra-connector/2.0.5-s_2.11/
-[25]: https://where-ever-white-paper-lands
+[25]: https://github.com/data-bench/data-bench/blob/master/Data-Bench_PoC_d36_FINAL.pdf
 [26]: http://github.com/Data-Bench/data-bench-data/source/
