@@ -18,13 +18,13 @@
 
 # Create Kafka Topics
 
-0. ** Log into the kafka container**
+0. **Log into the kafka container**
  
 ```
-# kubectl exec -it kafka-0 --namespace kafka -- /bin/bash
+$ kubectl exec -it kafka-0 --namespace kafka -- /bin/bash
 ```
 
-0. ** Create the topics**
+1. **Create the topics**
  
 The following commands will create the topics, in this case with replication factor 1 and 1 partition, should be adjusted (and scripted) once we get further along
 ZOOKEEPER_SERVICE_HOST / ZOOKEEPER_SERVICE_PORT are both set by default in this environment
@@ -34,7 +34,7 @@ $ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_
 $ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic CUSTOMER-VALUATION-REQUEST --replication-factor 1 --partitions 1 
 $ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic CUSTOMER-VALUATION-RESPONSE --replication-factor 1 --partitions 1 
  ```
-Please note that the output of these commands will be mixed in with STDERR/STDOUT from the zookeeper process, in this current container, so there is some searching needed to find the “output”
+Please note that the output of these commands will be mixed in with STDERR/STDOUT from the zookeeper process in this current implementation, so there is some searching needed to find the “output”
 
 To check that the topics were created properly:
 ```
@@ -45,7 +45,7 @@ Expected Output:
 - CUSTOMER-VALUATION-RESPONSE
 - MARKET-STREAM
 
-0. **Test the topics**
+2. **Test the topics**
 
 Using console-consumer:
 
