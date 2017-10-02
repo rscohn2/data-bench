@@ -253,9 +253,9 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 * [Big Data Europe 2020:Apache Spark Master 2.2.0][21]
 * [Big Data Europe 2020:Apache Spark Worker 2.2.0][22]
 * [Apache Kafka 0.11.0][6]
-* [Apache Cassandra X.Y.Z][8]
-* [Spark Kafka Connector X.Y.Z][23]
-* [Spark Cassandra Connector X.Y.Z][24]
+* [Apache Cassandra 3.11.0][8]
+* [Spark Kafka Connector 0-10-assembly_2.11/2.1.0][23]
+* [Spark Cassandra Connector 2.0.5-s_2.11][24]
 
 
 ## Contact
@@ -305,8 +305,6 @@ Not strictly true yet.
 [20]: https://github.com/Data-Bench/data-bench-data/blob/master/docs/howto-cassandra-load.md
 [21]: https://hub.docker.com/r/bde2020/spark-master/
 [22]: https://hub.docker.com/r/bde2020/spark-worker/
-[23]: http://central.maven.org/maven2/org/apache/spark/spark-streaming-kafka-0-10-assembly_2.11/2.1.\
-0/spark-streaming-kafka-0-10-assembly_2.11-2.1.0.jar
-[24]: http://dl.bintray.com/spark-packages/maven/datastax/spark-cassandra-connector/2.0.5-s_2.11/spark-cas\
-sandra-connector-2.0.5-s_2.11.jar
+[23]: http://central.maven.org/maven2/org/apache/spark/spark-streaming-kafka-0-10-assembly_2.11/2.1.0/
+[24]: http://dl.bintray.com/spark-packages/maven/datastax/spark-cassandra-connector/2.0.5-s_2.11/
 [25]: https://where-ever-white-paper-lands
