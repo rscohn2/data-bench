@@ -164,7 +164,7 @@ we are here to help!
 	```
     XXX need to talk about the ansible inventory here too
 	
-0. Finally, install Kubernetes using [kubeadm][2]. 
+0. Finally, install Kubernetes using [kubeadm][1]. 
 
    We used these instructions to bring up our cluster, just make sure
    to pay attention to the bits about installing the cluster network
