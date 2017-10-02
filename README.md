@@ -220,17 +220,40 @@ You are back! The hard part is done, it's time to deploy Data Bench!
 	```
 	$ kubectl get pods --all-namespaces
 	```
-<!--
+
 ## Using Data Bench
+
+There is not a lot you can currently do with this proof of concept, but that should change quickly.  Until that happens, here are a few things that you can look at.
 
 ### Running Data Bench
 
+Since you have deployed the Data Bench Workload containers, the workload is running.
+
 ### Monitoring Data Bench
+The MARKET-STREAM transction publishes via a 'MARKET-STREAM' Kafka topic, you can view this topic using:
+```
+ $ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic MARKET-STREAM --from-beginning
+```
+The CUSTOMER-VALUATION transaction returns results via a 'CUSTOMER-VALUATION-RESPONSE' Kafka topic, you can view this topic using:
+```
+ $ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic CUSTOMER-VALUATION-RESPONSE --from-beginning
+```
+
+The LAST_TRADE table is updated in the CassandraDB and can be viewed using:
+```
+$ cqlsh
+> use customer;
+> SELECT FINISH THIS
+```
+
 
 ### Stopping Data Bench
--->
-
+	```
+	$ kubectl create -f data-bench/deployments/kubernetes/50databench
+	```
+<!--
 ### What's Next?
+-->
 
 ## Notes
 
