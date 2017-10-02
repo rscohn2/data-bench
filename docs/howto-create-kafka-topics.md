@@ -26,36 +26,36 @@ $ kubectl exec -it kafka-0 --namespace kafka -- /bin/bash
 
 1. **Create the topics**
  
-The following commands will create the topics, in this case with replication factor 1 and 1 partition, should be adjusted (and scripted) once we get further along
-ZOOKEEPER_SERVICE_HOST / ZOOKEEPER_SERVICE_PORT are both set by default in this environment
+   The following commands will create the topics, in this case with replication factor 1 and 1 partition, should be adjusted (and scripted) once we get further along
+   ZOOKEEPER_SERVICE_HOST / ZOOKEEPER_SERVICE_PORT are both set by default in this environment
 
  ```
-$ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic MARKET-STREAM --replication-factor 1 --partitions 1 
-$ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic CUSTOMER-VALUATION-REQUEST --replication-factor 1 --partitions 1 
-$ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic CUSTOMER-VALUATION-RESPONSE --replication-factor 1 --partitions 1 
+   $ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic MARKET-STREAM --replication-factor 1 --partitions 1 
+   $ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic CUSTOMER-VALUATION-REQUEST --replication-factor 1 --partitions 1 
+   $ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --create --topic CUSTOMER-VALUATION-RESPONSE --replication-factor 1 --partitions 1 
  ```
 **Please note that the output of these commands will be mixed in with STDERR/STDOUT from the zookeeper process in this current implementation, so there is some searching needed to find the “output”**
 
-To check that the topics were created properly:
+   To check that the topics were created properly:
 ```
 $ /opt/kafka/bin/kafka-topics.sh --zookeeper $ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT --list 
 ```
-Expected Output:
-- CUSTOMER-VALUATION-REQUEST
-- CUSTOMER-VALUATION-RESPONSE
-- MARKET-STREAM
+   Expected Output:
+   - CUSTOMER-VALUATION-REQUEST
+   - CUSTOMER-VALUATION-RESPONSE
+   - MARKET-STREAM
 
 2. **Test the topics**
 
-Using console-consumer:
+   Using console-consumer:
 
 ```
-$ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic MARKET-STREAM --from-beginning
+   $ /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-0.broker.kafka.svc.cluster.local:9092 --topic MARKET-STREAM --from-beginning
 ```
 
-If there is no output (perhaps the generators are not running), then use the console-producer to put data onto the topic
+   If there is no output (perhaps the generators are not running), then use the console-producer to put data onto the topic
 
 ```
-$ /opt/kafka/bin/kafka-console-producer.sh --broker-list  kafka-0.broker.kafka.svc.cluster.local:9092 --topic MARKET-STREAM
+   $ /opt/kafka/bin/kafka-console-producer.sh --broker-list  kafka-0.broker.kafka.svc.cluster.local:9092 --topic MARKET-STREAM
 ```
 
