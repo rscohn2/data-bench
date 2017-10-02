@@ -302,7 +302,7 @@ Not strictly true yet.
 [17]: https://kafka.apache.org/documentation/
 [18]: https://coreos.com/flannel/docs/latest/
 [19]: https://github.com/Data-Bench/data-bench
-[20]: https://github.com/Data-Bench/data-bench-data/docs/load-db-howto.md
+[20]: https://github.com/Data-Bench/data-bench-data/blob/master/docs/load-db-howto.md
 [21]: https://hub.docker.com/r/bde2020/spark-master/
 [22]: https://hub.docker.com/r/bde2020/spark-worker/
 [23]: https://spark-kafka-connnector-url
