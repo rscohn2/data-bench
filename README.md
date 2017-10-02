@@ -304,5 +304,5 @@ Not strictly true yet.
 [22]: https://hub.docker.com/r/bde2020/spark-worker/
 [23]: http://central.maven.org/maven2/org/apache/spark/spark-streaming-kafka-0-10-assembly_2.11/2.1.0/
 [24]: http://dl.bintray.com/spark-packages/maven/datastax/spark-cassandra-connector/2.0.5-s_2.11/
-[25]: https://github.com/data-bench/data-bench/blob/master/Data-Bench_PoC_d36_FINAL.pdf
+[25]: https://software.intel.com/en-us/articles/data-bench-a-new-proof-of-concept-workload-for-microservice-transactions
 [26]: http://github.com/Data-Bench/data-bench-data/source/
