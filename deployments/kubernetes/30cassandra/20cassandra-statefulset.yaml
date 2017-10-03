@@ -19,7 +19,7 @@ spec:
             path: /export/scratch/cassandra/data
       containers:
       - name: cassandra
-        image: cassandra:3.11.0
+        image: databench/cassandra
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
