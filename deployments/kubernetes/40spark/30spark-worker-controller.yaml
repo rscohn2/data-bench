@@ -14,8 +14,30 @@ spec:
     spec:
       nodeSelector:
         use: spark-worker
+      volumes:
+        - name: cfgmap-vol
+          configMap:
+            name: spark-worker-cfgmap
+            items:
+            - key: docker.properties.template
+              path: docker.properties.template
+            - key: fairscheduler.xml.template
+              path: fairscheduler.xml.template
+            - key: log4j.properties.template
+              path: log4j.properties.template
+            - key: metrics.properties.template
+              path: metrics.properties.template
+            - key: slaves.template
+              path: slaves.template
+            - key: spark-defaults.conf.template
+              path: spark-defaults.conf.template
+            - key: spark-env.sh.template
+              path: spark-env.sh.template
       containers:
-        - name: spark-worker
-          image: bde2020/spark-worker
-          ports:
-            - containerPort: 8081
+      - name: spark-worker
+        image: bde2020/spark-worker
+        ports:
+          - containerPort: 8081
+        volumeMounts:
+        - name: cfgmap-vol
+          mountPath: /spark/conf

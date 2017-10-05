@@ -17,6 +17,28 @@ spec:
         - name: cassandra-data
           hostPath:
             path: /export/scratch/cassandra/data
+        - name: cfgmap-vol
+          configMap:
+            name: cassandra-cfgmap
+            items:
+            - key: cassandra-env.sh
+              path: cassandra-env.sh
+            - key: cassandra-rackdc.properties
+              path: cassandra-rackdc.properties
+            - key: cassandra-topology.properties
+              path: cassandra-topology.properties
+            - key: cassandra.yaml
+              path: cassandra.yaml
+            - key: commitlog_archiving.properties
+              path: commitlog_archiving.properties
+            - key: hotspot_compiler
+              path: hotspot_compiler
+            - key: jvm.options
+              path: jvm.options
+            - key: logback-tools.xml
+              path: logback-tools.xml
+            - key: logback.xml
+              path: logback.xml
       containers:
       - name: cassandra
         image: databench/cassandra
@@ -42,9 +64,9 @@ spec:
               command: ["/bin/sh", "-c", "nodetool drain"]
         env:
           - name: MAX_HEAP_SIZE
-            value: 512M
+            value: 8G
           - name: HEAP_NEWSIZE
-            value: 100M
+            value: 2G
           - name: CASSANDRA_SEEDS
             value: "cassandra-0.cassandra.default.svc.cluster.local"
           - name: CASSANDRA_CLUSTER_NAME
@@ -74,3 +96,5 @@ spec:
         volumeMounts:
         - name: cassandra-data
           mountPath: /var/lib/cassandra
+        - name: cfgmap-vol
+          mountPath: /etc/cassandra
