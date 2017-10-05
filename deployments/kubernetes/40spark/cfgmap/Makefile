@@ -18,7 +18,7 @@ KUBECTL= kubectl
 MASTER_CONF=master_conf
 WORKER_CONF=worker_conf
 
-NAMESPACE=../00namespace-spark.yaml
+NAMESPACE=spark
 MASTER_CFGMAP=spark-master-cfgmap  
 MASTER_CFGMAP_YAML=05spark-master-cfgmap.yaml
 WORKER_CFGMAP=spark-worker-cfgmap  
@@ -30,20 +30,20 @@ all: build push
 
 
 build:
-	-@$(KUBECTL) create namespace spark
-	@$(KUBECTL) create configmap $(MASTER_CFGMAP) --from-file $(MASTER_CONF) -n spark
-	@$(KUBECTL) create configmap $(WORKER_CFGMAP) --from-file $(WORKER_CONF) -n spark
-	@$(KUBECTL) get configmap $(MASTER_CFGMAP) -n spark -o yaml > $(MASTER_CFGMAP_YAML)
-	@$(KUBECTL) get configmap $(WORKER_CFGMAP) -n spark -o yaml > $(WORKER_CFGMAP_YAML)
-	@$(KUBECTL) delete configmap $(MASTER_CFGMAP) -n spark
-	@$(KUBECTL) delete configmap $(WORKER_CFGMAP) -n spark
+	-@$(KUBECTL) create namespace $NAMESPACE
+	@$(KUBECTL) create configmap $(MASTER_CFGMAP) --from-file $(MASTER_CONF) -n $NAMESPACE
+	@$(KUBECTL) create configmap $(WORKER_CFGMAP) --from-file $(WORKER_CONF) -n $NAMESPACE
+	@$(KUBECTL) get configmap $(MASTER_CFGMAP) -n $NAMESPACE -o yaml > $(MASTER_CFGMAP_YAML)
+	@$(KUBECTL) get configmap $(WORKER_CFGMAP) -n $NAMESPACE -o yaml > $(WORKER_CFGMAP_YAML)
+	@$(KUBECTL) delete configmap $(MASTER_CFGMAP) -n $NAMESPACE
+	@$(KUBECTL) delete configmap $(WORKER_CFGMAP) -n $NAMESPACE
 
 push:
 	@cp $(MASTER_CFGMAP_YAML) .. 
 	@cp $(WORKER_CFGMAP_YAML) .. 
 
 clean:
-	-@$(KUBECTL) delete configmap $(MASTER_CFGMAP) -n spark
-	-@$(KUBECTL) delete configmap $(WORKER_CFGMAP) -n spark
+	-@$(KUBECTL) delete configmap $(MASTER_CFGMAP) -n $NAMESPACE
+	-@$(KUBECTL) delete configmap $(WORKER_CFGMAP) -n $NAMESPACE
 	@rm -f $(MASTER_CFGMAP_YAML)
 	@rm -f $(WORKER_CFGMAP_YAML)
