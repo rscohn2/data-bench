@@ -1,0 +1,19 @@
+apiVersion: v1
+data:
+  create_topics.sh: "#!/bin/bash\n\nTOPICS=( CUSTOMER-VALUATION-REQUEST CUSTOMER-VALUATION-RESPONSE
+    MARKET-STREAM cd )\n\nkafka_topics=/opt/kafka/bin/kafka-topics.sh \n\nzookeeper=\"$ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT\"\nreplication_factor=1\npartitions=1\nkafka_create_flags=\"
+    --if-not-exists\"\n\n\nfor topic in ${TOPICS[@]}; do\n    echo -n \"Creating TOPIC:
+    ${topic} \"\n    $kafka_topics --zookeeper ${zookeeper} \\\n                  --create
+    --topic ${topic} \\\n                  --replication-factor ${replication_factor}
+    \\\n                  --partitions ${partitions} \\\n                  ${kafka_create_flags}
+    >& /dev/null\n\n    exists=`${kafka_topics} --zookeeper ${zookeeper} --list |
+    grep -e \"^${topic}$\" | wc -l`\n    if [ \"$exists\" -eq \"1\" ]; then\n        echo
+    \"success\"\n    else\n        echo \"fail\"\n    fi\ndone\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: 2017-10-05T21:52:44Z
+  name: kafka-cfgmap
+  namespace: kafka
+  resourceVersion: "3611444"
+  selfLink: /api/v1/namespaces/kafka/configmaps/kafka-cfgmap
+  uid: 84bdb7ab-aa17-11e7-922d-001e67cbf071

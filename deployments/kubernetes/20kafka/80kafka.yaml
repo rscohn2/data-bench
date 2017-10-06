@@ -57,10 +57,15 @@ spec:
           mountPath: /etc/kafka
         - name: data
           mountPath: /var/lib/kafka/data
+        - name: scripts
+          mountPath: /opt/kafka/scripts
       volumes:
       - name: config
         configMap:
           name: broker-config
+      - name: scripts
+        configMap:
+          name: kafka-cfgmap
   volumeClaimTemplates:
   - metadata:
       name: data
