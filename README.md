@@ -114,6 +114,8 @@ Data Bench requires some initial software to be installed on cluster nodes:
 The storage requirements for the current version of Data Bench are quite minimal, mostly due to the limited functionality of the inital release.
 
 - Cassandra local persistent (fast) storage, on the order of 10GB for the demo database.
+  - For this version of Data Bench, the above storage needs to be accessible on the bare metal
+  server running the Cassandra container as a file system at  <b> /export/scratch/cassandra/data. </b>
 - Kafka/Zookeeper local persistent storage, on the order of 10GB.
 - Spark Master: none
 - Spark Worker: local storage, on the order of 100GB.
