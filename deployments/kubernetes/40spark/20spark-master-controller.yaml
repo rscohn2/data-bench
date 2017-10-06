@@ -14,9 +14,31 @@ spec:
     spec:
       nodeSelector:
         use: spark-master
+      volumes:
+        - name: cfgmap-vol
+          configMap:
+            name: spark-master-cfgmap
+            items:
+            - key: docker.properties.template
+              path: docker.properties.template
+            - key: fairscheduler.xml.template
+              path: fairscheduler.xml.template
+            - key: log4j.properties.template
+              path: log4j.properties.template
+            - key: metrics.properties.template
+              path: metrics.properties.template
+            - key: slaves.template
+              path: slaves.template
+            - key: spark-defaults.conf.template
+              path: spark-defaults.conf.template
+            - key: spark-env.sh.template
+              path: spark-env.sh.template
       containers:
-        - name: spark-master
-          image: databench/spark-master
-          ports:
-            - containerPort: 7077
-            - containerPort: 8080
+      - name: spark-master
+        image: databench/spark-master
+        ports:
+          - containerPort: 7077
+          - containerPort: 8080
+        volumeMounts:
+        - name: cfgmap-vol
+          mountPath: /spark/conf
