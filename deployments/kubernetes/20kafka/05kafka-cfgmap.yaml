@@ -1,7 +1,15 @@
 apiVersion: v1
 data:
-  create_topics.sh: "#!/bin/bash\n\nTOPICS=( CUSTOMER-VALUATION-REQUEST CUSTOMER-VALUATION-RESPONSE
-    MARKET-STREAM cd )\n\nkafka_topics=/opt/kafka/bin/kafka-topics.sh \n\nzookeeper=\"$ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT\"\nreplication_factor=1\npartitions=1\nkafka_create_flags=\"
+  create_topics.sh: "#!/bin/bash\n#\n#   Copyright 2017 Intel Corporation\n#\n#   Licensed
+    under the Apache License, Version 2.0 (the \"License\");\n#   you may not use
+    this file except in compliance with the License.\n#   You may obtain a copy of
+    the License at\n#\n#       http://www.apache.org/licenses/LICENSE-2.0\n#\n#   Unless
+    required by applicable law or agreed to in writing, software\n#   distributed
+    under the License is distributed on an \"AS IS\" BASIS,\n#   WITHOUT WARRANTIES
+    OR CONDITIONS OF ANY KIND, either express or implied.\n#   See the License for
+    the specific language governing permissions and\n#   limitations under the License.\n#
+    \   \n\nTOPICS=( CUSTOMER-VALUATION-REQUEST CUSTOMER-VALUATION-RESPONSE MARKET-STREAM
+    )\n\nkafka_topics=/opt/kafka/bin/kafka-topics.sh \n\nzookeeper=\"$ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT\"\nreplication_factor=1\npartitions=1\nkafka_create_flags=\"
     --if-not-exists\"\n\n\nfor topic in ${TOPICS[@]}; do\n    echo -n \"Creating TOPIC:
     ${topic} \"\n    $kafka_topics --zookeeper ${zookeeper} \\\n                  --create
     --topic ${topic} \\\n                  --replication-factor ${replication_factor}
@@ -11,9 +19,9 @@ data:
     \"success\"\n    else\n        echo \"fail\"\n    fi\ndone\n"
 kind: ConfigMap
 metadata:
-  creationTimestamp: 2017-10-05T21:52:44Z
+  creationTimestamp: 2017-10-09T16:24:43Z
   name: kafka-cfgmap
   namespace: kafka
-  resourceVersion: "3611444"
+  resourceVersion: "4171834"
   selfLink: /api/v1/namespaces/kafka/configmaps/kafka-cfgmap
-  uid: 84bdb7ab-aa17-11e7-922d-001e67cbf071
+  uid: 5b734aeb-ad0e-11e7-922d-001e67cbf071
