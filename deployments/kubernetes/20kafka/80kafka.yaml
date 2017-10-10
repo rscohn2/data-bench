@@ -55,8 +55,6 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /etc/kafka
-        - name: data
-          mountPath: /var/lib/kafka/data
         - name: scripts
           mountPath: /opt/kafka/scripts
       volumes:
@@ -66,11 +64,3 @@ spec:
       - name: scripts
         configMap:
           name: kafka-cfgmap
-  volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 10Gi
