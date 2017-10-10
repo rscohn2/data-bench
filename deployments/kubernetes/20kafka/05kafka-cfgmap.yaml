@@ -9,7 +9,7 @@ data:
     OR CONDITIONS OF ANY KIND, either express or implied.\n#   See the License for
     the specific language governing permissions and\n#   limitations under the License.\n#
     \   \n\nTOPICS=( CUSTOMER-VALUATION-REQUEST CUSTOMER-VALUATION-RESPONSE MARKET-STREAM
-    )\n\nkafka_topics=/opt/kafka/bin/kafka-topics.sh \n\nzookeeper=\"$ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT\"\nreplication_factor=1\npartitions=1\nkafka_create_flags=\"
+    MARKET-STREAM-REQUEST )\n\nkafka_topics=/opt/kafka/bin/kafka-topics.sh \n\nzookeeper=\"$ZOOKEEPER_SERVICE_HOST:$ZOOKEEPER_SERVICE_PORT\"\nreplication_factor=1\npartitions=1\nkafka_create_flags=\"
     --if-not-exists\"\n\n\nfor topic in ${TOPICS[@]}; do\n    echo -n \"Creating TOPIC:
     ${topic} \"\n    $kafka_topics --zookeeper ${zookeeper} \\\n                  --create
     --topic ${topic} \\\n                  --replication-factor ${replication_factor}
@@ -19,9 +19,9 @@ data:
     \"success\"\n    else\n        echo \"fail\"\n    fi\ndone\n"
 kind: ConfigMap
 metadata:
-  creationTimestamp: 2017-10-09T16:24:43Z
+  creationTimestamp: 2017-10-10T16:14:14Z
   name: kafka-cfgmap
   namespace: kafka
-  resourceVersion: "4171834"
+  resourceVersion: "4320016"
   selfLink: /api/v1/namespaces/kafka/configmaps/kafka-cfgmap
-  uid: 5b734aeb-ad0e-11e7-922d-001e67cbf071
+  uid: 0edb828d-add6-11e7-922d-001e67cbf071
