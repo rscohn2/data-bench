@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-master-config
+  namespace: default
+data:
+  spark-env.sh: |
+    SPARK_NO_DAEMONIZE=1
+  spark-defaults.conf: |
+    # spark.master
+    # spark.eventLog.enabled
+    # spark.eventLog.dir
+    # spark.serializer
+    # spark.driver.memory
+    # spark.executor.extraJavaOptions
+    
+    

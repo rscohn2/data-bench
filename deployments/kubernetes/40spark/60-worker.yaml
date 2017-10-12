@@ -1,0 +1,36 @@
+kind: StatefulSet
+apiVersion: apps/v1beta1
+metadata:
+  name: spark-worker
+spec:
+  serviceName: spark-worker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        spark-role: worker
+    spec:
+      terminationGracePeriodSeconds: 0
+      volumes:
+        - name: spark-conf
+          configMap:
+            name: spark-worker-config
+            items:
+              - key: spark-env.sh
+                path: spark-env.sh
+              - key: spark-defaults.conf
+                path: spark-defaults.conf
+      containers:
+        - name: spark-worker
+          image: databench/big-data-basic
+          command: ["$(SPARK_HOME)/sbin/start-slave.sh","$(CLUSTER_MASTER)"]
+          envFrom:
+            - configMapRef:
+                name: spark-env
+          ports:
+            - containerPort: 8081
+          volumeMounts:
+            - name: spark-conf
+              mountPath: "/usr/share/apache-spark/conf"              
+              
+          
