@@ -21,7 +21,7 @@ spec:
                 path: spark-defaults.conf
       containers:
         - name: spark-master
-          image: databench/big-data-basic
+          image: databench/apache-spark-basic
           command: [ "$(SPARK_HOME)/sbin/start-master.sh" ]
           envFrom:
             - configMapRef:

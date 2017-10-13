@@ -22,7 +22,7 @@ spec:
                 path: spark-defaults.conf
       containers:
         - name: spark-worker
-          image: databench/big-data-basic
+          image: databench/apache-spark-basic
           command: ["$(SPARK_HOME)/sbin/start-slave.sh","$(CLUSTER_MASTER)"]
           envFrom:
             - configMapRef:
