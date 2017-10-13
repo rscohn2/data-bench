@@ -1,0 +1,33 @@
+kind: StatefulSet
+apiVersion: apps/v1beta1
+metadata:
+  name: consumer-dev
+spec:
+  serviceName: consumer-dev
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        spark-role: app
+    spec:
+      volumes:
+        - name: spark-conf
+          configMap:
+            name: consumer-dev-config
+            items:
+              - key: spark-env.sh
+                path: spark-env.sh
+              - key: spark-defaults.conf
+                path: spark-defaults.conf
+      containers:
+        - name: consumer-dev
+          image: databench/apache-spark-basic
+          command: [ "/bin/bash", "-c", "while true; do sleep 3600; done"]
+          envFrom:
+            - configMapRef:
+                name: spark-env
+          volumeMounts:
+            - name: spark-conf
+              mountPath: "/usr/share/apache-spark/conf"
+              
+          
