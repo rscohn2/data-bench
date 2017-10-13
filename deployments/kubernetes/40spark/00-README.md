@@ -71,7 +71,7 @@ CLUSTER_MASTER=spark://spark-master.default.svc.cluster.local:7077
 
 ### Deploying Apache Spark
 
-Use the following kubectl commadn to create an Apache Spark master and
+Use the following kubectl command to create an Apache Spark master and
 worker pod from the files in the current directory:
 
 ```
@@ -81,7 +81,8 @@ worker pod from the files in the current directory:
 This will find all the yamls in the current directory and attempt to
 create kubernetes entities with them. The collation order of the
 filenames corresponds to the instantiation order of each entity.
-So be careful renaming the files.
+
+Be careful renaming the files.
 
 
 ### Modifying the Shell Environment for master/slave
