@@ -15,10 +15,10 @@ spec:
           configMap:
             name: spark-master-config
             items:
-              - key: spark-env.sh
-                path: spark-env.sh
               - key: spark-defaults.conf
                 path: spark-defaults.conf
+              - key: spark-env.sh
+                path: spark-env.sh
       containers:
         - name: spark-master
           image: databench/apache-spark-basic
@@ -31,6 +31,10 @@ spec:
             - containerPort: 8080
           volumeMounts:
             - name: spark-conf
-              mountPath: "/usr/share/apache-spark/conf"
+              mountPath: /usr/share/apache-spark/conf/spark-defaults.conf
+              subPath: spark-defaults.conf
+            - name: spark-conf
+              mountPath: /usr/share/apache-spark/conf/spark-env.sh
+              subPath: spark-env.sh
               
           
