@@ -17,8 +17,6 @@ spec:
             items:
               - key: server.properties
                 path: server.properties
-              - key: log4j.properties
-                path: log4j.properties
         - name: data
           emptyDir: {}
       containers:
@@ -29,7 +27,8 @@ spec:
                 name: kafka-env
           volumeMounts:
             - name: config
-              mountPath: /usr/share/apache-kafka/config
+              mountPath: /usr/share/apache-kafka/config/server.properties
+              subPath: server.properties
             - name: data
               mountPath: /var/lib/kafka/data
           command:
