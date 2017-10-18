@@ -2,114 +2,60 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cassandra-config
+  namespace: default
 data:
-  cassandra.yaml: |
-    cluster_name: 'Test Cluster'
-    num_tokens: 256
-    hinted_handoff_enabled: true
-    max_hint_window_in_ms: 10800000 # 3 hours
-    hinted_handoff_throttle_in_kb: 1024
-    max_hints_delivery_threads: 2
-    hints_flush_period_in_ms: 10000
-    max_hints_file_size_in_mb: 128
-    batchlog_replay_throttle_in_kb: 1024
-    authenticator: AllowAllAuthenticator
-    authorizer: AllowAllAuthorizer
-    role_manager: CassandraRoleManager
-    roles_validity_in_ms: 2000
-    permissions_validity_in_ms: 2000
-    credentials_validity_in_ms: 2000
-    partitioner: org.apache.cassandra.dht.Murmur3Partitioner
-    cdc_enabled: false
-    disk_failure_policy: stop
-    commit_failure_policy: stop
-    key_cache_save_period: 14400
-    row_cache_size_in_mb: 0
-    row_cache_save_period: 0
-    counter_cache_save_period: 7200
-    commitlog_sync: periodic
-    commitlog_sync_period_in_ms: 10000
-    commitlog_segment_size_in_mb: 32
-    seed_provider:
-      - class_name: org.apache.cassandra.locator.SimpleSeedProvider
-        parameters:
-          - seeds: "127.0.0.1"
-    concurrent_reads: 32
-    concurrent_writes: 32
-    concurrent_counter_writes: 32
-    concurrent_materialized_view_writes: 32
-    memtable_allocation_type: heap_buffers
-    index_summary_resize_interval_in_minutes: 60
-    trickle_fsync: false
-    trickle_fsync_interval_in_kb: 10240
-    storage_port: 7000
-    listen_address: cassandra-0
-    broadcast_address: cassandra-0
-    start_native_transport: true
-    native_transport_port: 9042
-    start_rpc: false
-    incremental_backups: false
-    snapshot_before_compaction: false
-    auto_snapshot: true
-    column_index_size_in_kb: 64
-    column_index_cache_size_in_kb: 2
-    compaction_throughput_mb_per_sec: 16
-    sstable_preemptive_open_interval_in_mb: 50
-    read_request_timeout_in_ms: 5000
-    range_request_timeout_in_ms: 10000
-    write_request_timeout_in_ms: 2000
-    counter_write_request_timeout_in_ms: 5000
-    cas_contention_timeout_in_ms: 1000
-    truncate_request_timeout_in_ms: 60000
-    request_timeout_in_ms: 10000
-    slow_query_log_timeout_in_ms: 500
-    cross_node_timeout: false
-    endpoint_snitch: SimpleSnitch
-    dynamic_snitch_update_interval_in_ms: 100 
-    dynamic_snitch_reset_interval_in_ms: 600000
-    dynamic_snitch_badness_threshold: 0.1
-    request_scheduler: org.apache.cassandra.scheduler.NoScheduler
-    server_encryption_options:
-        internode_encryption: none
-        keystore: conf/.keystore
-        keystore_password: cassandra
-        truststore: conf/.truststore
-        truststore_password: cassandra
-    client_encryption_options:
-        enabled: false
-        optional: false
-        keystore: conf/.keystore
-        keystore_password: cassandra
-    internode_compression: dc
-    inter_dc_tcp_nodelay: false
-    tracetype_query_ttl: 86400
-    tracetype_repair_ttl: 604800
-    enable_user_defined_functions: false
-    enable_scripted_user_defined_functions: false
-    windows_timer_interval: 1
-    transparent_data_encryption_options:
-        enabled: false
-        chunk_length_kb: 64
-        cipher: AES/CBC/PKCS5Padding
-        key_alias: testing:1
-        key_provider: 
-          - class_name: org.apache.cassandra.security.JKSKeyProvider
-            parameters: 
-              - keystore: conf/.keystore
-                keystore_password: cassandra
-                store_type: JCEKS
-                key_password: cassandra
-    tombstone_warn_threshold: 1000
-    tombstone_failure_threshold: 100000
-    batch_size_warn_threshold_in_kb: 5
-    batch_size_fail_threshold_in_kb: 50
-    unlogged_batch_across_partitions_warn_threshold: 10
-    compaction_large_partition_warning_threshold_mb: 100
-    gc_warn_threshold_in_ms: 1000
-    back_pressure_enabled: false
-    back_pressure_strategy:
-        - class_name: org.apache.cassandra.net.RateBasedBackPressure
-          parameters:
-            - high_ratio: 0.90
-              factor: 5
-              flow: FAST    
+  cassandra.yaml: "cluster_name: 'Test Cluster'\nnum_tokens: 256\nhinted_handoff_enabled:
+    true\nmax_hint_window_in_ms: 10800000 # 3 hours\nhinted_handoff_throttle_in_kb:
+    1024\nmax_hints_delivery_threads: 2\nhints_flush_period_in_ms: 10000\nmax_hints_file_size_in_mb:
+    128\nbatchlog_replay_throttle_in_kb: 1024\nauthenticator: AllowAllAuthenticator\nauthorizer:
+    AllowAllAuthorizer\nrole_manager: CassandraRoleManager\nroles_validity_in_ms:
+    2000\npermissions_validity_in_ms: 2000\ncredentials_validity_in_ms: 2000\npartitioner:
+    org.apache.cassandra.dht.Murmur3Partitioner\ncdc_enabled: false\ndisk_failure_policy:
+    stop\ncommit_failure_policy: stop\nprepared_statements_cache_size_mb:\nthrift_prepared_statements_cache_size_mb:\nkey_cache_size_in_mb:\nkey_cache_save_period:
+    14400\nrow_cache_size_in_mb: 0\nrow_cache_save_period: 0\ncounter_cache_size_in_mb:\ncounter_cache_save_period:
+    7200\ncommitlog_sync: periodic\ncommitlog_sync_period_in_ms: 10000\ncommitlog_segment_size_in_mb:
+    32\nseed_provider:\n    # Addresses of hosts that are deemed contact points. \n
+    \   # Cassandra nodes use this list of hosts to find each other and learn\n    #
+    the topology of the ring.  You must change this if you are running\n    # multiple
+    nodes!\n    - class_name: org.apache.cassandra.locator.SimpleSeedProvider\n      parameters:\n
+    \         # seeds is actually a comma-delimited list of addresses.\n          #
+    Ex: \"<ip1>,<ip2>,<ip3>\"\n          - seeds: \"127.0.0.1\"\nconcurrent_reads:
+    32\nconcurrent_writes: 32\nconcurrent_counter_writes: 32\nconcurrent_materialized_view_writes:
+    32\nmemtable_allocation_type: heap_buffers\nindex_summary_capacity_in_mb:\nindex_summary_resize_interval_in_minutes:
+    60\ntrickle_fsync: false\ntrickle_fsync_interval_in_kb: 10240\nstorage_port: 7000\nssl_storage_port:
+    7001\nlisten_address: localhost\nstart_native_transport: true\nnative_transport_port:
+    9042\nstart_rpc: false\nrpc_address: localhost\nrpc_port: 9160\nrpc_keepalive:
+    true\nrpc_server_type: sync\nthrift_framed_transport_size_in_mb: 15\nincremental_backups:
+    false\nsnapshot_before_compaction: false\nauto_snapshot: true\ncolumn_index_size_in_kb:
+    64\ncolumn_index_cache_size_in_kb: 2\ncompaction_throughput_mb_per_sec: 16\nsstable_preemptive_open_interval_in_mb:
+    50\nread_request_timeout_in_ms: 5000\nrange_request_timeout_in_ms: 10000\nwrite_request_timeout_in_ms:
+    2000\ncounter_write_request_timeout_in_ms: 5000\ncas_contention_timeout_in_ms:
+    1000\ntruncate_request_timeout_in_ms: 60000\nrequest_timeout_in_ms: 10000\nslow_query_log_timeout_in_ms:
+    500\ncross_node_timeout: false\nendpoint_snitch: SimpleSnitch\ndynamic_snitch_update_interval_in_ms:
+    100 \ndynamic_snitch_reset_interval_in_ms: 600000\ndynamic_snitch_badness_threshold:
+    0.1\nrequest_scheduler: org.apache.cassandra.scheduler.NoScheduler\nserver_encryption_options:\n
+    \   internode_encryption: none\n    keystore: conf/.keystore\n    keystore_password:
+    cassandra\n    truststore: conf/.truststore\n    truststore_password: cassandra\n
+    \   # More advanced defaults below:\n    # protocol: TLS\n    # algorithm: SunX509\n
+    \   # store_type: JKS\n    # cipher_suites: [TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_DHE_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA]\n
+    \   # require_client_auth: false\n    # require_endpoint_verification: false\nclient_encryption_options:\n
+    \   enabled: false\n    # If enabled and optional is set to true encrypted and
+    unencrypted connections are handled.\n    optional: false\n    keystore: conf/.keystore\n
+    \   keystore_password: cassandra\n    # require_client_auth: false\n    # Set
+    trustore and truststore_password if require_client_auth is true\n    # truststore:
+    conf/.truststore\n    # truststore_password: cassandra\n    # More advanced defaults
+    below:\n    # protocol: TLS\n    # algorithm: SunX509\n    # store_type: JKS\n
+    \   # cipher_suites: [TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_DHE_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA]\ninternode_compression:
+    dc\ninter_dc_tcp_nodelay: false\ntracetype_query_ttl: 86400\ntracetype_repair_ttl:
+    604800\nenable_user_defined_functions: false\nenable_scripted_user_defined_functions:
+    false\nwindows_timer_interval: 1\ntransparent_data_encryption_options:\n    enabled:
+    false\n    chunk_length_kb: 64\n    cipher: AES/CBC/PKCS5Padding\n    key_alias:
+    testing:1\n    # CBC IV length for AES needs to be 16 bytes (which is also the
+    default size)\n    # iv_length: 16\n    key_provider: \n      - class_name: org.apache.cassandra.security.JKSKeyProvider\n
+    \       parameters: \n          - keystore: conf/.keystore\n            keystore_password:
+    cassandra\n            store_type: JCEKS\n            key_password: cassandra\ntombstone_warn_threshold:
+    1000\ntombstone_failure_threshold: 100000\nbatch_size_warn_threshold_in_kb: 5\nbatch_size_fail_threshold_in_kb:
+    50\nunlogged_batch_across_partitions_warn_threshold: 10\ncompaction_large_partition_warning_threshold_mb:
+    100\ngc_warn_threshold_in_ms: 1000\nback_pressure_enabled: false\nback_pressure_strategy:\n
+    \   - class_name: org.apache.cassandra.net.RateBasedBackPressure\n      parameters:\n
+    \       - high_ratio: 0.90\n          factor: 5\n          flow: FAST\n"
