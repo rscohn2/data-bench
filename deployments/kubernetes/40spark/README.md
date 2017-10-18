@@ -1,6 +1,6 @@
 # Apache Spark Deplopyment
 
-This set of kubernetes configuration files creates an Apache Spark
+This set of kubernetes configuration files creates an [Apache Spark][1]
 master instance and any number of Apache Spark worker instances.
 
 ## Deployment Files
@@ -19,9 +19,9 @@ The service should be created before any other parts of the Apache
 Spark deployment are created.
 
 
-### 20-environment.yaml 
+### 20-shared-env.yaml 
 
-A kubernetes ConfigMap, ```spark-env```, that is shared by both the
+A kubernetes ConfigMap, ```spark-shared-env```, that is shared by both the
 Apache Spark master and workers. Items defined in the ```data:```
 stanza will be included in the shell environment of both the master
 and worker instances.
@@ -150,5 +150,5 @@ the master and slave processes in the background, however kubernetes
 interprets this behavior as the container dying and restarts it ad
 infinitum.
 
-
+[1]: https://spark.apache.org
 
