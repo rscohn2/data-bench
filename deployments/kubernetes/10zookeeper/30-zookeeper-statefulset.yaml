@@ -24,7 +24,8 @@ spec:
           image: databench/apache-kafka-basic
           volumeMounts:
             - name: config
-              mountPath: /usr/share/apache-kafka/config
+              mountPath: /usr/share/apache-kafka/config/zookeeper.properties
+              subPath: zookeeper.properties
             - name: data
               mountPath: /var/lib/zookeeper/data
           command:
