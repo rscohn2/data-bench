@@ -8,7 +8,7 @@ spec:
   template:
     metadata:
       labels:
-        spark-role: worker
+        role: spark-worker
     spec:
       terminationGracePeriodSeconds: 0
       volumes:
@@ -26,7 +26,7 @@ spec:
           command: ["$(SPARK_HOME)/sbin/start-slave.sh","$(CLUSTER_MASTER)"]
           envFrom:
             - configMapRef:
-                name: spark-env
+                name: spark-shared-env
           ports:
             - containerPort: 8081
           volumeMounts:
