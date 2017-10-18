@@ -8,7 +8,7 @@ master instance and any number of Apache Spark worker instances.
 ### 10-master-service.yaml 
 
 The master service creates a headless service that looks for pods
-labeled with spark-role=master and handles the ports 8080 and 7077.
+labeled with role=spark-master and handles the ports 8080 and 7077.
 The service FQDN will resolve to:
 
 ```
@@ -43,7 +43,7 @@ provides the contents of:
 # kubectl describe cm spark-master-config
 ```
 
-### 40-master.yaml 
+### 40-master-statefulset.yaml 
 
 A kubernetes StatefulSet that launches one (1) Apache Spark master.
 The StatefulSet is used due to the more friendly pod names and does
@@ -55,7 +55,7 @@ A kubernetes ConfigMap for workers that provides the contents of:
 - $SPARK_HOME/conf/spark-env.sh
 - $SPARK_HOME/conf/spark-defaults.conf
 
-### 60-worker.yaml 
+### 60-worker-statefulset.yaml 
 
 A kubernetes StatefulSet that launches one or more Apache Spark
 workers (default=1). The StatefulSet is used for the more user
@@ -111,20 +111,20 @@ the number of replicas to zero to recycle all the worker pods, e.g.:
 ```
 
 To make persistent changes to the Apache Spark environment, edit
-20-environment.yaml and then recycle the Spark pods.
+20-shared-env.yaml and then recycle the Spark pods.
 
 ```
-# vi 20-environment.yaml
-# kubectl apply -f 20-environment.yaml
+# vi 20-shared-env.yaml
+# kubectl apply -f 20-shared-env.yaml
 ```
 
 The pods can be recycled by deleting the StatefulSets for master
 and worker pods:
 ```
-# kubectl delete -f 60-worker.yaml
-# kubectl delete -f 40-master.yaml
-# kubectl create -f 40-master.yaml
-# kubectl create -f 60-worker.yaml
+# kubectl delete -f 60-worker-statefulset.yaml
+# kubectl delete -f 40-master-statefulset.yaml
+# kubectl create -f 40-master-statefulset.yaml
+# kubectl create -f 60-worker-statefulset.yaml
 ```
 
 The same effect can be achieved using the edit method above to
@@ -134,16 +134,16 @@ move replicas from N to 0 back to N. It's a style-thing.
 ### Modifying "spark-defaults.conf" or "spark-env.sh"
 
 You can change the contents of the Apache Spark configuration files
-usually found in $SPARK_HOME/conf by editing the contents of the
-spark-master-config or spark-worker-config ConfigMaps. As with
-changes to 20-environment.yaml, you must recycle the pods to pick
-up the new contents of those files after reloading the appropriate
-ConfigMap file.
+found in $SPARK_HOME/conf by editing the contents of the
+spark-master-config or spark-worker-config ConfigMaps. As with changes
+to 20-shared-env.yaml, you must recycle the pods to pick up the new
+contents of those files after reloading the appropriate ConfigMap
+file.
 
 
-### Necessary Contents of 20-environment.yaml
+### Necessary Contents of 20-shared-env.yaml
 
-The variable ```SPARK_NO_DAEMONIZE=1``` in 20-environment.yaml is
+The variable ```SPARK_NO_DAEMONIZE=1``` in 20-shared-env.yaml is
 required. It's presense causes the start-master.sh and start-slave.sh
 shell scripts to run in the foreground. The default behavior is to run
 the master and slave processes in the background, however kubernetes
