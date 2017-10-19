@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: data-bench-generators
+  name: generators
 spec:
   serviceName: generators
   replicas: 1
@@ -11,12 +11,15 @@ spec:
         role: generator
     spec:
       volumes:
-        - name: config
+        - name: marketstream-config
           configMap:
             name: generators-config
             items:
               - key: marketstream-config.ini
                 path: config.ini
+        - name: customervaluation-config
+          configMap:
+            name: generators-config
               - key: customervaluation-config.ini
                 path: config.ini
       containers:
@@ -27,7 +30,7 @@ spec:
             - configMapRef:
                 name: generators-env
           volumeMounts:
-            - name: config
+            - name: marketstream-config
               mountPath: /config.ini
               subPath: config.ini
         - name: customervaluation
@@ -37,6 +40,6 @@ spec:
             - configMapRef:
                 name: generators-env
           volumeMounts:
-            - name: config
+            - name: customervaluation-config
               mountPath: /config.ini
               subPath: config.ini
