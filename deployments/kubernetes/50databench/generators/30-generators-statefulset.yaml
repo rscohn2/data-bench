@@ -1,8 +1,9 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: data-bench-generators
 spec:
+  serviceName: generators
   replicas: 1
   template:
     metadata:
