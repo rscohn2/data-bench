@@ -27,9 +27,8 @@ spec:
         - name: marketstream
           image: databench/marketstream-consumer
           command:
-            - python3
-            - marketstream.py
-            - --broker=$(BROKER)
+            - /bin/bash
+            - run-marketstream-consumer.sh
           envFrom:
             - configMapRef:
                 name: consumers-env
