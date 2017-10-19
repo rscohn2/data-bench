@@ -20,12 +20,16 @@ spec:
         - name: customervaluation-config
           configMap:
             name: generators-config
+            items:
               - key: customervaluation-config.ini
                 path: config.ini
       containers:
         - name: marketstream
           image: databench/marketstream-generator
-          command: [ "python3", "marketstream.py" ]
+          command:
+            - python3
+            - marketstream.py
+            - --broker=$(BROKER)
           envFrom:
             - configMapRef:
                 name: generators-env
@@ -35,7 +39,10 @@ spec:
               subPath: config.ini
         - name: customervaluation
           image: databench/customervaluation-generator
-          command: [ "python3", "customervaluation.py" ]
+          command:
+            - python3
+            - customervaluation.py
+            - --broker=$(BROKER)          
           envFrom:
             - configMapRef:
                 name: generators-env
