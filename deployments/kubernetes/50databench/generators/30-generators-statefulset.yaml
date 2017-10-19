@@ -1,19 +1,41 @@
 apiVersion: extensions/v1beta1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: data-bench-generators
-  labels:
-    cat: generators
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: data-bench
-        cat: generator
+        role: generator
     spec:
+      volumes:
+        - name: config
+          configMap:
+            name: generators-config
+            items:
+              - key: marketstream-config.ini
+                path: config.ini
+              - key: customervaluation-config.ini
+                path: config.ini
       containers:
         - name: marketstream
           image: databench/marketstream-generator
+          command: [ "python3", "marketstream.py" ]
+          envFrom:
+            - configMapRef:
+                name: generators-env
+          volumeMounts:
+            - name: config
+              mountPath: /config.ini
+              subPath: config.ini
         - name: customervaluation
           image: databench/customervaluation-generator
+          command: [ "python3", "customervaluation.py" ]
+          envFrom:
+            - configMapRef:
+                name: generators-env
+          volumeMounts:
+            - name: config
+              mountPath: /config.ini
+              subPath: config.ini
