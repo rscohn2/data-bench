@@ -1,20 +1,52 @@
----
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
-  name: data-bench-consumers
-  labels:
-    cat: consumers
+  name: consumers
 spec:
+  serviceName: consumers
   replicas: 1
   template:
     metadata:
       labels:
-        app: data-bench
-        cat: consumer
+        role: consumer
     spec:
+      volumes:
+        - name: marketstream-config
+          configMap:
+            name: consumers-config
+            items:
+              - key: marketstream-config.ini
+                path: config.ini
+        - name: customervaluation-config
+          configMap:
+            name: consumers-config
+            items:
+              - key: customervaluation-config.ini
+                path: config.ini
       containers:
         - name: marketstream
           image: databench/marketstream-consumer
+          command:
+            - python3
+            - marketstream.py
+            - --broker=$(BROKER)
+          envFrom:
+            - configMapRef:
+                name: consumers-env
+          volumeMounts:
+            - name: marketstream-config
+              mountPath: /config.ini
+              subPath: config.ini
         - name: customervaluation
           image: databench/customervaluation-consumer
+          command:
+            - python3
+            - customervaluation.py
+            - --broker=$(BROKER)          
+          envFrom:
+            - configMapRef:
+                name: consumers-env
+          volumeMounts:
+            - name: customervaluation-config
+              mountPath: /config.ini
+              subPath: config.ini
