@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: databench-env
+data:
+  KAFKA: kafka.default.svc.cluster.local
+  SPARK: spark.default.svc.cluster.local
+  CASSANDRA: cassandra.default.svc.cluster.local
+  ZOOKEEPER: zookeeper.default.svc.cluster.local
+  SPARK_HOME: /usr/share/apache-spark
+  CASSANDRA_HOME: /usr/share/apache-cassandra
+  KAFKA_HOME: /usr/share/apache-kafka
+  ZOOKEEPER_HOME: /usr/share/apache-kafka
+  TOPIC_MARKETSTREAM_REQUEST: MARKET-STREAM-REQUEST
+  TOPIC_MARKETSTREAM_RESPONSE: MARKET-STREAM-RESPONSE
+  TOPIC_CUSTOMERVALUATION_REQUEST: CUSTOMER-VALUATION-REQUEST
+  TOPIC_CUSTOMERVALUATION_RESPONSE: CUSTOMER-VALUATION-RESPONSE
+  
