@@ -31,6 +31,8 @@ spec:
             - run-marketstream-consumer.sh
           envFrom:
             - configMapRef:
+                name: databench-env
+            - configMapRef:
                 name: consumers-env
           volumeMounts:
             - name: marketstream-config
@@ -43,6 +45,8 @@ spec:
             - customervaluation.py
             - --broker=$(BROKER)          
           envFrom:
+            - configMapRef:
+                name: databench-env
             - configMapRef:
                 name: consumers-env
           volumeMounts:
