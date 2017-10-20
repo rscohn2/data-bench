@@ -22,8 +22,12 @@ spec:
       containers:
         - name: consumer-dev
           image: databench/apache-spark-basic
-          command: [ "/bin/bash", "-c", "while true; do sleep 3600; done"]
+          command:
+            - sleep
+            - 120d
           envFrom:
+            - configMapRef:
+                name: databench-env
             - configMapRef:
                 name: spark-env
           volumeMounts:
