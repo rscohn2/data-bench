@@ -4,8 +4,11 @@ metadata:
   name: consumers-env
 data:
   BROKER: kafka.default.svc.cluster.local
-  SPARK: spark://spark.default.svc.cluster.local:7077
+  CLUSTER_MASTER: spark://spark.default.svc.cluster.local:7077
+  CASSANDRA: cassandra.default.svc.cluster.local
+  SPARK_HOME: /usr/share/apache-spark
   TOPIC_MARKETSTREAM_REQUEST: MARKET-STREAM-REQUEST
   TOPIC_MARKETSTREAM_RESPONSE: MARKET-STREAM-RESPONSE
   TOPIC_CUSTOMERVALUATION_REQUEST: CUSTOMER-VALUATION-REQUEST
   TOPIC_CUSTOMERVALUATION_RESPONSE: CUSTOMER-VALUATION-RESPONSE
+  

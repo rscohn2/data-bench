@@ -4,11 +4,14 @@ metadata:
   name: consumers-config
 data:
   marketstream-config.ini: |
+    # bash
+    EXECUTION_TIME=600
+    STREAMING_INTERVAL=1000
+    TOTAL_EXECUTOR_CORES=4
+    EXECUTOR_CORES=4
+    EXECUTOR_MEMORY=15g
+  customervaluation-config.ini: |
+    # python ini 
     [default]
     source=marketstream
-    broker=kafka.default.svc.cluster.local
-
-  customervaluation-config.ini: |
-    [default]
-    source=customervaluation
     broker=kafka.default.svc.cluster.local
