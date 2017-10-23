@@ -6,6 +6,8 @@ metadata:
 data:
   spark-env.sh: |
     SPARK_NO_DAEMONIZE=1
+    export PYSPARK_PYTHON=/usr/bin/python3
+    export PYSPARK_DRIVER_PYTHON=/usr/bin/ipython
   spark-defaults.conf: |
     # spark.master
     # spark.eventLog.enabled
@@ -13,5 +15,3 @@ data:
     # spark.serializer
     # spark.driver.memory
     # spark.executor.extraJavaOptions
-    
-    
