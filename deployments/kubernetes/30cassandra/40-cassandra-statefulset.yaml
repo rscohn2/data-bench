@@ -1,0 +1,50 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: cassandra
+spec:
+  serviceName: cassandra
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: cassandra
+    spec:
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: cassandra-yaml
+          configMap:
+            name: cassandra-config
+            items:
+              - key: cassandra.yaml
+                path: cassandra.yaml
+      containers:
+        - name: cassandra
+          image: databench/apache-cassandra-basic:0.4.0
+          command: [ "$(CASSANDRA_HOME)/bin/cassandra", "-fR" ]
+          ports:
+            - containerPort: 7000
+              name: intra-node
+            - containerPort: 7001
+              name: tls-intra-node
+            - containerPort: 7199
+              name: jmx
+            - containerPort: 9042
+              name: cql
+            - containerPort: 9160
+              name: thrift
+          securityContext:
+            capabilities:
+              add:
+                - IPC_LOCK
+          envFrom:
+            - configMapRef:
+                name: cassandra-env
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/cassandra
+            - name: cassandra-yaml
+              mountPath: /usr/share/apache-cassandra/conf/cassandra.yaml
+              subPath: cassandra.yaml
+    

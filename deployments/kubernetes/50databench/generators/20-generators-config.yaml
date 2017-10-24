@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: generators-config
+data:
+  marketstream-config.ini: |
+    [default]
+    source=marketstream
+    broker=kafka.default.svc.cluster.local
+
+  customervaluation-config.ini: |
+    [default]
+    source=customervaluation
+    broker=kafka.default.svc.cluster.local

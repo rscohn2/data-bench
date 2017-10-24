@@ -1,0 +1,40 @@
+kind: StatefulSet
+apiVersion: apps/v1beta1
+metadata:
+  name: spark-master
+spec:
+  serviceName: spark-master
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: spark-master
+    spec:
+      volumes:
+        - name: spark-conf
+          configMap:
+            name: spark-master-config
+            items:
+              - key: spark-defaults.conf
+                path: spark-defaults.conf
+              - key: spark-env.sh
+                path: spark-env.sh
+      containers:
+        - name: spark-master
+          image: databench/apache-spark-basic:0.4.0
+          command: [ "$(SPARK_HOME)/sbin/start-master.sh" ]
+          envFrom:
+            - configMapRef:
+                name: spark-shared-env
+          ports:
+            - containerPort: 7077
+            - containerPort: 8080
+          volumeMounts:
+            - name: spark-conf
+              mountPath: /usr/share/apache-spark/conf/spark-defaults.conf
+              subPath: spark-defaults.conf
+            - name: spark-conf
+              mountPath: /usr/share/apache-spark/conf/spark-env.sh
+              subPath: spark-env.sh
+              
+          

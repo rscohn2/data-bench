@@ -1,0 +1,56 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: generators
+spec:
+  serviceName: generators
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: generator
+    spec:
+      volumes:
+        - name: marketstream-config
+          configMap:
+            name: generators-config
+            items:
+              - key: marketstream-config.ini
+                path: config.ini
+        - name: customervaluation-config
+          configMap:
+            name: generators-config
+            items:
+              - key: customervaluation-config.ini
+                path: config.ini
+      containers:
+        - name: marketstream
+          image: databench/marketstream-generator:0.4.0
+          command:
+            - python3
+            - marketstream.py
+            - --broker=$(BROKER)
+          envFrom:
+            - configMapRef:
+                name: databench-env
+            - configMapRef:
+                name: generators-env
+          volumeMounts:
+            - name: marketstream-config
+              mountPath: /config.ini
+              subPath: config.ini
+        - name: customervaluation
+          image: databench/customervaluation-generator:0.4.0
+          command:
+            - python3
+            - customervaluation.py
+            - --broker=$(BROKER)          
+          envFrom:
+            - configMapRef:
+                name: databench-env            
+            - configMapRef:
+                name: generators-env
+          volumeMounts:
+            - name: customervaluation-config
+              mountPath: /config.ini
+              subPath: config.ini

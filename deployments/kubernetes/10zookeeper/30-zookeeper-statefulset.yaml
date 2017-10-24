@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: zookeeper
+spec:
+  serviceName: "zookeeper"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: zookeeper
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: zookeeper-config
+            items:
+              - key: zookeeper.properties
+                path: zookeeper.properties
+        - name: data
+          emptyDir: {}
+      containers:
+        - name: zookeeper
+          image: databench/apache-kafka-basic:0.4.0
+          volumeMounts:
+            - name: config
+              mountPath: /usr/share/apache-kafka/config/zookeeper.properties
+              subPath: zookeeper.properties
+            - name: data
+              mountPath: /var/lib/zookeeper/data
+          command:
+            - /usr/share/apache-kafka/bin/zookeeper-server-start.sh
+            - /usr/share/apache-kafka/config/zookeeper.properties
+          ports:
+            - containerPort: 2181
+              name: client
+            - containerPort: 2888
+              name: peer
+            - containerPort: 3888
+              name: leader-election

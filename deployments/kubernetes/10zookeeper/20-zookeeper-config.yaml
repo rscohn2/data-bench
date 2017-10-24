@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zookeeper-config
+data:
+  zookeeper.properties: |
+    tickTime=2000
+    dataDir=/var/lib/zookeeper/data
+    dataLogDor=/var/lib/zookeeper/log
+    clientPort=2181

@@ -1,0 +1,38 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: kafka
+spec:
+  serviceName: "kafka"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: kafka
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: kafka-config
+            items:
+              - key: server.properties
+                path: server.properties
+        - name: data
+          emptyDir: {}
+      containers:
+        - name: kafka
+          image: databench/apache-kafka-basic:0.4.0
+          envFrom:
+            - configMapRef:
+                name: kafka-env
+          volumeMounts:
+            - name: config
+              mountPath: /usr/share/apache-kafka/config/server.properties
+              subPath: server.properties
+            - name: data
+              mountPath: /var/lib/kafka/data
+          command:
+            - /usr/share/apache-kafka/bin/kafka-server-start.sh
+            - /usr/share/apache-kafka/config/server.properties
+          ports:
+            - containerPort: 9092
