@@ -21,7 +21,7 @@ spec:
           emptyDir: {}
       containers:
         - name: kafka
-          image: databench/apache-kafka-basic
+          image: databench/apache-kafka-basic:0.4.0
           envFrom:
             - configMapRef:
                 name: kafka-env

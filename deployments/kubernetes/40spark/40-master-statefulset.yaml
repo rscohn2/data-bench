@@ -21,7 +21,7 @@ spec:
                 path: spark-env.sh
       containers:
         - name: spark-master
-          image: databench/apache-spark-basic
+          image: databench/apache-spark-basic:0.4.0
           command: [ "$(SPARK_HOME)/sbin/start-master.sh" ]
           envFrom:
             - configMapRef:
