@@ -1,4 +1,6 @@
-shboard Setup**
+**Dashboard Setup**
+
+**_Note all YAML changes disccused below have been applied to YAMLs in this repo_**
 
 **Kubernetes Dashboard:**
 
