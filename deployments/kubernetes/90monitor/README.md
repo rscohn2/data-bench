@@ -38,7 +38,7 @@ Port Forward:
 
 ```
 $ kubectl get pods --namespace=kube-system -l k8s-app=kubernetes-dashboard \
-  -o template --template=“{{range.items}}{{.metadata.name}}{{end}}” \
+  -o template --template="{{range.items}}{{.metadata.name}}{{end}}" \
   | xargs -I{} kubectl port-forward --namespace=kube-system {} 8443:8443
 ```
 
@@ -48,7 +48,7 @@ You can then either use this port directly or use an SSH tunnel to export beyond
 
 ex: `$ ssh -nfT -L 8443:localhost:8443 cluster_master sleep 120d`
 
-will make localhost:8443 forward to the kubernetes dashboard on the cluster master. 
+will make <https://localhost:8443> forward to the kubernetes dashboard on the cluster master. Note your browser might need security exception.
 
 Note:
 
@@ -76,12 +76,12 @@ to deploy Heapster / Graphana / Influxdb
 Port Forward:
 
 ```
-$ kubectl get pods --namespace=kube-system -l k8s-app=graphana \
-  -o template --template=“{{range.items}}{{.metadata.name}}{{end}}” \
+$ kubectl get pods --namespace=kube-system -l k8s-app=grafana \
+  -o template --template="{{range.items}}{{.metadata.name}}{{end}}" \
   | xargs -I{} kubectl port-forward --namespace=kube-system {} 3000:3000
 ```
 
-Graphana is available on Cluster_Master:3000
+Graphana is available on http://Cluster_Master:3000
 
 ssh forward similarly to kubernetes dashboard if needed.
 
@@ -108,11 +108,11 @@ Port Forward:
 
 ```
 $ kubectl get pods -l component=spark-ui-proxy \
-  -o template --template=“{{range.items}}{{.metadata.name}}{{end}}” \
-  | xargs -I{} kubectl port-forward --namespace=kube-system {} 8080:8080
+  -o template --template="{{range.items}}{{.metadata.name}}{{end}}" \
+  | xargs -I{} kubectl port-forward {} 8080:80
 ```
 
-Spark Master / Worker dashboards are availble on the Cluster_Master:8080
+Spark Master / Worker dashboards are availble on the http://Cluster_Master:8080
 
 ssh forward similarly to kubernetes dashboard if needed.
 
