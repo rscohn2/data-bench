@@ -54,7 +54,9 @@ Note:
 
 kubectl proxy fails with SSL authentication errors, need to look at certificate generation.
 
-**Graphana Dashboard:**
+**Grafana Dashboard:**
+
+This will also deploy heapster / influxDB
 
 It maybe necessary to change the service type from:
 
@@ -69,9 +71,9 @@ to
 Deploy:
 
 
-`$ kubectl create -f graphana.yaml heapster.yaml influxdb.yaml`
+`$ kubectl create -f grafana.yaml heapster.yaml influxdb.yaml`
 
-to deploy Heapster / Graphana / Influxdb
+to deploy Heapster / Grafana / Influxdb
 
 Port Forward:
 
@@ -81,7 +83,7 @@ $ kubectl get pods --namespace=kube-system -l k8s-app=grafana \
   | xargs -I{} kubectl port-forward --namespace=kube-system {} 3000:3000
 ```
 
-Graphana is available on http://Cluster_Master:3000
+Grafana is available on http://Cluster_Master:3000
 
 ssh forward similarly to kubernetes dashboard if needed.
 
