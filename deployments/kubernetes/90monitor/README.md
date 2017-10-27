@@ -48,7 +48,7 @@ You can then either use this port directly or use an SSH tunnel to export beyond
 
 ex: `$ ssh -nfT -L 8443:localhost:8443 cluster_master sleep 120d`
 
-will make <https://localhost:8443> forward to the kubernetes dashboard on the cluster master. Note your browser might need security exception.
+will make <https://localhost:8443> forward to the kubernetes dashboard on the cluster master. Note your browser might need security exceptions.
 
 Note:
 
