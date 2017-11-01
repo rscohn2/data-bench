@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: spark-env
+  name: spark-shared-env
   namespace: default
 data:
   SPARK_HOME: "/usr/share/apache-spark"
