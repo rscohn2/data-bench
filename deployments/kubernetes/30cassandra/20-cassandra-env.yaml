@@ -5,3 +5,5 @@ metadata:
 data:
   CASSANDRA_HOME: "/usr/share/apache-cassandra"
   CASSANDRA_CONF: "/usr/share/apache-cassandra/conf"
+  PATH: /usr/local/bin:/usr/bin:/usr/share/apache-cassandra/bin
+  
