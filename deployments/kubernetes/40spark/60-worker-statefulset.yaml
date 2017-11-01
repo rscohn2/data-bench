@@ -20,6 +20,15 @@ spec:
                 path: spark-env.sh
               - key: spark-defaults.conf
                 path: spark-defaults.conf
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                    - spark-worker
       containers:
         - name: spark-worker
           image: databench/apache-spark-basic:0.4.0

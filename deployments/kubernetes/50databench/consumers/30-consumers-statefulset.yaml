@@ -23,6 +23,15 @@ spec:
             items:
               - key: customervaluation-config.ini
                 path: config.ini
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                    - workload
       containers:
         - name: marketstream
           image: databench/marketstream-consumer:0.4.0

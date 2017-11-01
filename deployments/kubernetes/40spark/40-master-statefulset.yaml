@@ -19,6 +19,15 @@ spec:
                 path: spark-defaults.conf
               - key: spark-env.sh
                 path: spark-env.sh
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                    - spark-master
       containers:
         - name: spark-master
           image: databench/apache-spark-basic:0.4.0
