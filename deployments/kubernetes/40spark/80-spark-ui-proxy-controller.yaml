@@ -11,6 +11,8 @@ spec:
       labels:
         component: spark-ui-proxy
     spec:
+      nodeSelector:
+        role: k8s-master
       containers:
         - name: spark-ui-proxy
           image: elsonrodriguez/spark-ui-proxy:1.0
