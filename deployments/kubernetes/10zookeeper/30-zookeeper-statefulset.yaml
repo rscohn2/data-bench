@@ -19,6 +19,13 @@ spec:
                 path: zookeeper.properties
         - name: data
           emptyDir: {}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - key: "role"
+                operator: In
+                values: [ "kafka"]
       containers:
         - name: zookeeper
           image: databench/apache-kafka-basic:0.4.0
