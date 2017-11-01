@@ -19,6 +19,15 @@ spec:
             items:
               - key: cassandra.yaml
                 path: cassandra.yaml
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                    - cassandra
       containers:
         - name: cassandra
           image: databench/apache-cassandra-basic:0.4.0
