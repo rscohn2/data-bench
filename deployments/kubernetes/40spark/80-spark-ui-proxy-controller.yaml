@@ -5,11 +5,11 @@ metadata:
 spec:
   replicas: 1
   selector:
-    component: spark-ui-proxy
+    role: spark-ui-proxy
   template:
     metadata:
       labels:
-        component: spark-ui-proxy
+        role: spark-ui-proxy
     spec:
       nodeSelector:
         role: k8s-master
@@ -22,7 +22,7 @@ spec:
             requests:
               cpu: 100m
           args:
-            - spark-master:8080
+            - spark:8080
           livenessProbe:
               httpGet:
                 path: /
