@@ -52,7 +52,7 @@ spec:
           command:
             - python3
             - customervaluation.py
-            - --broker=$(BROKER)          
+            - --broker=$(KAFKA)          
           envFrom:
             - configMapRef:
                 name: databench-env
