@@ -50,9 +50,8 @@ spec:
         - name: customervaluation
           image: databench/customervaluation-consumer:0.4.0
           command:
-            - python3
-            - customervaluation.py
-            - --broker=$(KAFKA)          
+            - /bin/bash
+            - customervaluation-consumer.sh
           envFrom:
             - configMapRef:
                 name: databench-env
