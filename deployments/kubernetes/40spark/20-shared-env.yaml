@@ -5,4 +5,4 @@ metadata:
   namespace: default
 data:
   SPARK_HOME: "/usr/share/apache-spark"
-  CLUSTER_MASTER: "spark://spark-master.default.svc.cluster.local:7077"
+  CLUSTER_MASTER: "spark://spark.default.svc.cluster.local:7077"
