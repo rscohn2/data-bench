@@ -4,7 +4,7 @@ metadata:
   name: databench-env
 data:
   KAFKA: kafka.default.svc.cluster.local
-  SPARK: spark.default.svc.cluster.local
+  SPARK: spark-master.default.svc.cluster.local
   CASSANDRA: cassandra.default.svc.cluster.local
   ZOOKEEPER: zookeeper.default.svc.cluster.local
   SPARK_HOME: /usr/share/apache-spark
