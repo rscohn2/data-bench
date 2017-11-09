@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: generators-env
 data:
-  POD_TYPE=generator
+  POD_TYPE: generator
