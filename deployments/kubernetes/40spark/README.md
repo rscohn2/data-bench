@@ -12,7 +12,7 @@ labeled with role=spark-master and handles the ports 8080 and 7077.
 The service FQDN will resolve to:
 
 ```
-spark-master.default.svc.cluster.local
+spark.default.svc.cluster.local
 ```
 	
 The service should be created before any other parts of the Apache
@@ -64,7 +64,7 @@ server via the service address using the environment variable
 CLUSTER_MASTER defined in the spark-env configmap.
 
 ```
-CLUSTER_MASTER=spark://spark-master.default.svc.cluster.local:7077
+CLUSTER_MASTER=spark://spark.default.svc.cluster.local:7077
 ```
 
 ## Notes
