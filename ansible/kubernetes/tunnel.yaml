@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    sleep_cmd: sleep 120d
+    services:
+      grafana:
+        pod: false
+        port: 3000
+        namespace: kube-system
+        label: k8s-app=grafana
+      influxdb:
+        pod: false
+        port: 8086
+        namespace: kube-system
+        label: k8s-app=influxdb
+      kafka:
+        pod: false
+        port: 9092
+        namespace: default
+        label: role=kafka
+  tasks:
+    - name: "destroy ssh tunnels on localhost"
+      command: pkill -9 -f ssh.+localhost.+sleep
+      ignore_errors: true
+      tags:
+        - stop
+        
+    - name: " create ssh tunnels on localhost"
+      command: "ssh -nfT -L {{item.value.port}}:localhost:{{item.value.port}} {{groups.master[0]}} {{sleep_cmd}}"
+      with_dict: "{{services}}"
+      run_once: true
+      tags:
+        - start

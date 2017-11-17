@@ -1,0 +1,76 @@
+---
+- hosts: master
+  vars:
+    scale_0_1: --current-replicas=0 --replicas=1
+    scale_1_0: --current-replicas=1 --replicas=0
+    seabass_workload: sleep 10s
+    
+  tasks:
+    - name: "stop workload pods and observer"
+      command: "kubectl scale --replicas=0 statefulset/{{item}}"
+      with_items:
+        - generators
+        - consumers
+        - simple-observer
+      ignore_errors: True
+      tags:
+        - stop
+
+    # prompt user for path to archive last run
+
+    - name: "prompt user for archive path   "
+      debug:
+        msg: NotImplemented
+      tags:
+        - archive
+      when: archive_path is not defined
+
+    - name: "archive databench database     "
+      debug:
+        msg: NotImplemented
+      tags:
+        - archive
+      when: archive_path is defined
+
+    - name: flush influx databench databse
+      debug:
+        msg: NotImplemented
+      tags:
+        - flush
+  
+    - name: "flush kafka topics              "
+      command: "kubectl scale {{item}} statefulset/kafka"
+      with_items:
+        - "{{scale_1_0}}"
+        - "{{scale_0_1}}"
+      tags:
+        - flush
+
+    - name: "generate a new run identifier   "
+      debug:
+        msg: NotImplemented
+      tags:
+        - init
+
+
+    - name: "start consumers/observers       "
+      command: "kubectl scale {{scale_0_1}} statefulset/{{item}}"
+      with_items:
+        - consumers
+        - simple-observer
+      tags:      
+        - warmup
+
+    - name: "start seabass                   "
+      debug:
+        msg: "command seabass -run -option {{seabass_workload}}"
+      tags:
+        - start
+
+    - name: "start generators                "
+      command: "kubectl scale {{scale_0_1}} statefulset/{{item}}"
+      with_items:
+        - generators
+      tags:
+        - start
+
