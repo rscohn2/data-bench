@@ -2,7 +2,11 @@
 wb6
 
 [minion]
-wb[1:5]
+wb1 role=cassandra
+wb2 role=kafka
+wb3 role=spark-master
+wb4 role=spark-worker
+wb5 role=workload
 
 [master:vars]
 kubernetes_node_type= master
