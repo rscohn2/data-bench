@@ -4,7 +4,7 @@ metadata:
   name: generators
 spec:
   serviceName: generators
-  replicas: 1
+  replicas: 0
   template:
     metadata:
       labels:
