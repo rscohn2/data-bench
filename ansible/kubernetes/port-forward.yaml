@@ -24,19 +24,19 @@
     
   tasks:
 
-    - name: stop kubernetes port-forward
+    - name: "stop kubernetes port-forward  "
       command: "pkill -9 -f kubectl.+port-forward.+{{item.key}}"
       with_dict: "{{services}}"
       tags:
         - stop-forwarding
 
-    - name: discover Grafana pod name
+    - name: "discover Grafana pod name     "
       command: "kubectl get pods -n {{services.grafana.namespace}} -l {{services.grafana.label}} {{podname}}"
       register: grafana
       tags:
         - start-grafana
 
-    - name: enable Grafana port-forward
+    - name: "enable Grafana port-forward   "
       command: "kubectl port-forward -n {{services.grafana.namespace}} {{grafana.stdout}} {{services.grafana.port}}:{{services.grafana.port}}"
       async: "{{one_month}}"
       poll: 0
@@ -44,26 +44,26 @@
         - start-grafana
 
 
-    - name: discover Influxdb pod name
+    - name: "discover Influxdb pod name    "
       command: "kubectl get pods -n {{services.influxdb.namespace}} -l {{services.influxdb.label}} {{podname}}"
       register: influxdb
       tags:
         - start-influxdb
 
-    - name: enable Influxdb port-forward
+    - name: "enable Influxdb port-forward  "
       command: "kubectl port-forward -n {{services.influxdb.namespace}} {{influxdb.stdout}} {{services.influxdb.port}}:{{services.influxdb.port}}"
       async: "{{one_month}}"
       poll: 0
       tags:
         - start-influxdb
 
-    - name: discover Kafka pod name
+    - name: "discover Kafka pod name       "
       command: "kubectl get pods -n {{services.kafka.namespace}} -l {{services.kafka.label}} {{podname}}"
       register: kafka
       tags:
         - start-kafka
 
-    - name: enable Kafka port-forward
+    - name: "enable Kafka port-forward     "
       command: "kubectl port-forward -n {{services.kafka.namespace}} {{kafka.stdout}} {{services.kafka.port}}:{{services.kafka.port}}"
       async: "{{one_month}}"
       poll: 0

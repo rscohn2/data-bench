@@ -32,13 +32,13 @@
         - archive
       when: archive_path is defined
 
-    - name: flush influx databench databse
+    - name: "flush influx databench database"
       debug:
         msg: NotImplemented
       tags:
         - flush
   
-    - name: "flush kafka topics              "
+    - name: "flush kafka topics             "
       command: "kubectl scale {{item}} statefulset/kafka"
       with_items:
         - "{{scale_1_0}}"
@@ -46,14 +46,13 @@
       tags:
         - flush
 
-    - name: "generate a new run identifier   "
+    - name: "generate a new run identifier  "
       debug:
         msg: NotImplemented
       tags:
         - init
 
-
-    - name: "start consumers/observers       "
+    - name: "start consumers/observers      "
       command: "kubectl scale {{scale_0_1}} statefulset/{{item}}"
       with_items:
         - consumers
@@ -61,9 +60,9 @@
       tags:      
         - warmup
 
-    - name: "start seabass                   "
+    - name: "start telemetry                 "
       debug:
-        msg: "command seabass -run -option {{seabass_workload}}"
+        msg: NotImplemented
       tags:
         - start
 
