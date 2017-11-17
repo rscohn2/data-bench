@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: simple-observer-env
+  namespace: default
+data:
+  KAFKA: "kafka.default.svc.cluster.local"
+  INFLUX: "monitoring-influxdb.kube-system.svc.cluster.local"
+  

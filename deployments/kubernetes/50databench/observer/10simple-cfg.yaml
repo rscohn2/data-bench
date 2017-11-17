@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: simple-observer-cfg
+  namespace: default
+data:
+  config.ini: |
+    # Empty configuration file
+    

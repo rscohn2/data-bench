@@ -1,0 +1,38 @@
+apiVersion: apps/v1beta
+kind: StatefulSet
+metadata:
+  name: simple-observer
+spec:
+  serviceName: simple-observer
+  replicas: 0
+  template:
+    metadata:
+      labels:
+        role: observer
+    spec:
+      volumes:
+        - name: simple-cfg
+          configMap:
+            name: simple-observer-cfg
+            items:
+              - key: config.ini
+                path: config.ini
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - k8s-master
+      containers:
+        - name: simple-observer
+          image: databench/simple-observer:0.4.0
+          envFrom:
+            - configMapRef:
+                name: simple-observer-env
+          volumeMounts:
+            - name: simple-cfg
+              mountPath: /config.ini
+              subPath: config.ini
