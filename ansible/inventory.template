@@ -1,0 +1,11 @@
+[master]
+wb6
+
+[minion]
+wb[1:5]
+
+[master:vars]
+kubernetes_node_type= master
+
+[minion:vars]
+kubernetes_node_type= minion
