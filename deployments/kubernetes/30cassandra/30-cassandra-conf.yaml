@@ -19,12 +19,12 @@ data:
     the topology of the ring.  You must change this if you are running\n    # multiple
     nodes!\n    - class_name: org.apache.cassandra.locator.SimpleSeedProvider\n      parameters:\n
     \         # seeds is actually a comma-delimited list of addresses.\n          #
-    Ex: \"<ip1>,<ip2>,<ip3>\"\n          - seeds: \"127.0.0.1\"\nconcurrent_reads:
+    Ex: \"<ip1>,<ip2>,<ip3>\"\n          - seeds: \"cassandra-0\"\nconcurrent_reads:
     32\nconcurrent_writes: 32\nconcurrent_counter_writes: 32\nconcurrent_materialized_view_writes:
     32\nmemtable_allocation_type: heap_buffers\nindex_summary_capacity_in_mb:\nindex_summary_resize_interval_in_minutes:
     60\ntrickle_fsync: false\ntrickle_fsync_interval_in_kb: 10240\nstorage_port: 7000\nssl_storage_port:
-    7001\nlisten_address: localhost\nstart_native_transport: true\nnative_transport_port:
-    9042\nstart_rpc: false\nrpc_address: localhost\nrpc_port: 9160\nrpc_keepalive:
+    7001\nstart_native_transport: true\nnative_transport_port:
+    9042\nstart_rpc: false\nrpc_address: 0.0.0.0\nbroadcast_rpc_address: cassandra-0\nrpc_port: 9160\nrpc_keepalive:
     true\nrpc_server_type: sync\nthrift_framed_transport_size_in_mb: 15\nincremental_backups:
     false\nsnapshot_before_compaction: false\nauto_snapshot: true\ncolumn_index_size_in_kb:
     64\ncolumn_index_cache_size_in_kb: 2\ncompaction_throughput_mb_per_sec: 16\nsstable_preemptive_open_interval_in_mb:
