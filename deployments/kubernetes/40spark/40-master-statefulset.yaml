@@ -19,6 +19,8 @@ spec:
                 path: spark-defaults.conf
               - key: spark-env.sh
                 path: spark-env.sh
+              - key: log4j.properties
+                path: log4j.properties  
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -45,5 +47,7 @@ spec:
             - name: spark-conf
               mountPath: /usr/share/apache-spark/conf/spark-env.sh
               subPath: spark-env.sh
-              
+            -name: log4j.properties  
+              mountPath: /usr/share/apache-spark/conf/log4j.properties
+              subPath: log4j.properties
           
