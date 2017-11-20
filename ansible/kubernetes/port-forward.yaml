@@ -45,22 +45,75 @@
   tasks:
 
     - name: " stop kubernetes port-forwarding"
-      command: "pkill -9 -f kubectl.+port-forward.+{{item.key}}"
-      with_dict: "{{services}}"
+      command: "pkill -9 -f kubectl.+port-forward"
       ignore_errors: true
       tags:
         - stop
 
-    - name: "start kubernetes port-forwarding"
+    - name: "find grafana pod name           "
+      command:
+        kubectl get pods -n kube-system -l k8s-app=grafana
+        -o jsonpath='{.items[0].metadata.name}'
+      register: grafana
+      tags:
+        - grafana
+        - start
+
+    - name: "start grafana port-forwarding   "
+      command:
+        "kubectl port-forward {{grafana.stdout}} 3000:3000 -n kube-system"
+      async: "{{one_month}}"
+      poll: 0
+      tags:
+        - grafana
+        - start
+
+    - name: "find influxdb pod name          "
+      command:
+        kubectl get pods -n kube-system -l k8s-app=influxdb
+        -o jsonpath='{.items[0].metadata.name}'
+      register: influxdb
+      tags:
+        - influxdb
+        - start
+
+    - name: "start influxdb port-forwarding  "
+      command:
+        "kubectl port-forward {{influxdb.stdout}} 8086:8086 -n kube-system"
+      async: "{{one_month}}"
+      poll: 0
+      tags:
+        - influxdb
+        - start
+
+    - name: "find kafka pod name             "
+      command:
+        kubectl get pods -n default -l role=kafka
+        -o jsonpath='{.items[0].metadata.name}'
+      register: kafka
+      tags:
+        - kafka
+        - start
+
+    - name: "start kafka port-forwarding     "
       shell:
-        kubectl get pods -n {{item.value.namespace}}
-        -l {{item.value.label}}
+        "kubectl port-forward {{kafka.stdout}} 9092:9092"
+      async: "{{one_month}}"
+      poll: 0
+      tags:
+        - kafka
+        - start
+
+    - name: "the whole enchilada"
+      shell:
+        kubectl get pods -l {{item.value.label}} -n {{item.value.namespace}}
         -o jsonpath='{.items[0].metadata.name}' |
-        xargs -I= kubectl port-forward =
+        xargs -I= kubectl port-forward = -n {{item.value.namespace}}
         {{item.value.local_port}}:{{item.value.remote_port}}
       async: "{{one_month}}"
       poll: 0
       with_dict: "{{services}}"
-      when: item.value.enabled
+      when: false and item.value.enabled
       tags:
-        - start
+        - enchilada
+
