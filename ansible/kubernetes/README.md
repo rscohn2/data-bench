@@ -64,6 +64,7 @@ playbook: workload.yaml
 The port-forward.yaml playbook is used to forward ports out of the kubernetes
 cluster. Ports on pods within the kubernetes cluster are forwarded to
 ports on the kubernetes master host. This can be useful for debugging.
+
 ```shell
 $ ansible-playbook -i ../inventory.template port-forward.yaml --list-tasks
 
@@ -71,13 +72,8 @@ playbook: port-forward.yaml
 
   play #1 (master): master	TAGS: []
     tasks:
-      stop kubernetes port-forward  	TAGS: [stop-forwarding]
-      discover Grafana pod name     	TAGS: [start-grafana]
-      enable Grafana port-forward   	TAGS: [start-grafana]
-      discover Influxdb pod name    	TAGS: [start-influxdb]
-      enable Influxdb port-forward  	TAGS: [start-influxdb]
-      discover Kafka pod name       	TAGS: [start-kafka]
-      enable Kafka port-forward     	TAGS: [start-kafka]
+       stop kubernetes port-forwarding	TAGS: [stop]
+      start kubernetes port-forwarding	TAGS: [start]	
 ```
 
 ## tunnel.yaml

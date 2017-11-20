@@ -31,7 +31,7 @@ spec:
                     - spark-worker
       containers:
         - name: spark-worker
-          image: databench/apache-spark-basic:0.4.0
+          image: databench/apache-spark-basic:0.4.1
           command: ["$(SPARK_HOME)/sbin/start-slave.sh","$(CLUSTER_MASTER)"]
           envFrom:
             - configMapRef:

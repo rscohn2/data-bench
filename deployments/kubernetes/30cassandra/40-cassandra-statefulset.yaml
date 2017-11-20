@@ -30,7 +30,7 @@ spec:
                     - cassandra
       containers:
         - name: cassandra
-          image: databench/apache-cassandra-init:0.4.0
+          image: databench/apache-cassandra-init:0.4.1
           command: [ "$(CASSANDRA_HOME)/bin/cassandra", "-fR" ]
           ports:
             - containerPort: 7000

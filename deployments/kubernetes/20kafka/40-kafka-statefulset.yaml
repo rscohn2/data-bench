@@ -28,7 +28,7 @@ spec:
                 values: [ "kafka"]
       containers:
         - name: kafka
-          image: databench/apache-kafka-basic:0.4.0
+          image: databench/apache-kafka-basic:0.4.1
           envFrom:
             - configMapRef:
                 name: kafka-env

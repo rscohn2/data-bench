@@ -3,7 +3,7 @@
   vars:
     scale_0_1: --current-replicas=0 --replicas=1
     scale_1_0: --current-replicas=1 --replicas=0
-    seabass_workload: sleep 10s
+    telemetry_workload: sleep 10s
     
   tasks:
     - name: "stop workload pods and observer"

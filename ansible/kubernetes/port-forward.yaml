@@ -3,74 +3,64 @@
   gather_facts: no
   user: root
   vars:
-    podname: "-o jsonpath='{.items[0].metadata.name}'"
     one_month: 2592000 # 60*60*24*30 - 1 month
     services:
       grafana:
-        pod: false
-        port: 3000
+        local_port: 3000
+        remote_port: 3000
         namespace: kube-system
         label: k8s-app=grafana
+        enabled: true
       influxdb:
-        pod: false
-        port: 8086
+        local_port: 8086
+        remote_port: 8086
         namespace: kube-system
         label: k8s-app=influxdb
+        enabled: true
       kafka:
-        pod: false
-        port: 9092
+        local_port: 9092
+        remote_port: 9092
         namespace: default
         label: role=kafka
+        enabled: true
+      cassandra:
+        local_port: 9042
+        remote_port: 9042
+        namespace: default
+        label: role=cassandra
+        enabled: false
+      zookeeper:
+        local_port: 2888
+        remote_port: 2888
+        namespace: default
+        label: role=zookeeper
+        enabled: false
+      spark-ui-proxy:
+        local_port: XXXX
+        remote_port: XXXX
+        namespace: default
+        label: role=spark-ui-proxy
+        enabled: false
     
   tasks:
 
-    - name: "stop kubernetes port-forward  "
+    - name: " stop kubernetes port-forwarding"
       command: "pkill -9 -f kubectl.+port-forward.+{{item.key}}"
       with_dict: "{{services}}"
+      ignore_errors: true
       tags:
-        - stop-forwarding
+        - stop
 
-    - name: "discover Grafana pod name     "
-      command: "kubectl get pods -n {{services.grafana.namespace}} -l {{services.grafana.label}} {{podname}}"
-      register: grafana
-      tags:
-        - start-grafana
-
-    - name: "enable Grafana port-forward   "
-      command: "kubectl port-forward -n {{services.grafana.namespace}} {{grafana.stdout}} {{services.grafana.port}}:{{services.grafana.port}}"
+    - name: "start kubernetes port-forwarding"
+      shell:
+        kubectl get pods -n {{item.value.namespace}}
+        -l {{item.value.label}}
+        -o jsonpath='{.items[0].metadata.name}' |
+        xargs -I= kubectl port-forward =
+        {{item.value.local_port}}:{{item.value.remote_port}}
       async: "{{one_month}}"
       poll: 0
+      with_dict: "{{services}}"
+      when: item.value.enabled
       tags:
-        - start-grafana
-
-
-    - name: "discover Influxdb pod name    "
-      command: "kubectl get pods -n {{services.influxdb.namespace}} -l {{services.influxdb.label}} {{podname}}"
-      register: influxdb
-      tags:
-        - start-influxdb
-
-    - name: "enable Influxdb port-forward  "
-      command: "kubectl port-forward -n {{services.influxdb.namespace}} {{influxdb.stdout}} {{services.influxdb.port}}:{{services.influxdb.port}}"
-      async: "{{one_month}}"
-      poll: 0
-      tags:
-        - start-influxdb
-
-    - name: "discover Kafka pod name       "
-      command: "kubectl get pods -n {{services.kafka.namespace}} -l {{services.kafka.label}} {{podname}}"
-      register: kafka
-      tags:
-        - start-kafka
-
-    - name: "enable Kafka port-forward     "
-      command: "kubectl port-forward -n {{services.kafka.namespace}} {{kafka.stdout}} {{services.kafka.port}}:{{services.kafka.port}}"
-      async: "{{one_month}}"
-      poll: 0
-      tags:
-        - start-kafka
-        
-
-
-
-    
+        - start

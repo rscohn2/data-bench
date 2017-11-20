@@ -6,30 +6,50 @@
     sleep_cmd: sleep 120d
     services:
       grafana:
-        pod: false
-        port: 3000
+        local_port: 3000
+        remote_port: 3000
         namespace: kube-system
         label: k8s-app=grafana
+        enabled: true
       influxdb:
-        pod: false
-        port: 8086
+        local_port: 8086
+        remote_port: 8086
         namespace: kube-system
         label: k8s-app=influxdb
+        enabled: true
       kafka:
-        pod: false
-        port: 9092
+        local_port: 9092
+        remote_port: 9092
         namespace: default
         label: role=kafka
+        enabled: true
+      cassandra:
+        local_port: 9042
+        remote_port: 9042
+        namespace: default
+        label: role=cassandra
+        enabled: false
+      zookeeper:
+        local_port: 2888
+        remote_port: 2888
+        namespace: default
+        label: role=zookeeper
+        enabled: false
   tasks:
     - name: "destroy ssh tunnels on localhost"
       command: pkill -9 -f ssh.+localhost.+sleep
       ignore_errors: true
+      run_once: true
       tags:
         - stop
         
     - name: " create ssh tunnels on localhost"
-      command: "ssh -nfT -L {{item.value.port}}:localhost:{{item.value.port}} {{groups.master[0]}} {{sleep_cmd}}"
+      command:
+        ssh -nfT -L
+        {{item.value.local_port}}:localhost:{{item.value.local_port}}
+        {{groups.master[0]}} {{sleep_cmd}}
       with_dict: "{{services}}"
       run_once: true
+      when: item.value.enabled
       tags:
         - start

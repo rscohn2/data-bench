@@ -1,5 +1,0 @@
-
-The YAML files in this directory were derived from the Kubernetes
-tutorial found at:
-
-https://kubernetes.io/docs/tutorials/stateful-application/cassandra/
