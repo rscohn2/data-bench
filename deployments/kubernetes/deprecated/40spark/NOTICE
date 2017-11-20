@@ -1,7 +1,0 @@
-
-The YAML files in this directory were derived from the Kubernetes
-examples found at:
-
-https://github.com/kubernetes/examples/blob/master/staging/spark/README.md
-
-which is covered by the kubernetes Apache 2.0 license.
