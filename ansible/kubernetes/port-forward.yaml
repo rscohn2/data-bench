@@ -35,12 +35,19 @@
         namespace: default
         label: role=zookeeper
         enabled: false
+      spark-ui-proxy:
+        local_port: XXXX
+        remote_port: XXXX
+        namespace: default
+        label: role=spark-ui-proxy
+        enabled: false
     
   tasks:
 
     - name: " stop kubernetes port-forwarding"
       command: "pkill -9 -f kubectl.+port-forward.+{{item.key}}"
       with_dict: "{{services}}"
+      ignore_errors: true
       tags:
         - stop
 
@@ -57,9 +64,3 @@
       when: item.value.enabled
       tags:
         - start
-
-        
-
-
-
-    
