@@ -28,7 +28,7 @@ spec:
                       - k8s-master
       containers:
         - name: simple-observer
-          image: databench/simple-observer:0.4.0
+          image: databench/simple-observer:0.4.1
           envFrom:
             - configMapRef:
                 name: simple-observer-env
