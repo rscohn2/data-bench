@@ -34,7 +34,7 @@ spec:
                     - workload
       containers:
         - name: marketstream
-          image: databench/marketstream-consumer:0.4.0
+          image: databench/marketstream-consumer:0.4.1
           command:
             - /bin/bash
             - marketstream-consumer.sh
@@ -48,7 +48,7 @@ spec:
               mountPath: /config.ini
               subPath: config.ini
         - name: customervaluation
-          image: databench/customervaluation-consumer:0.4.0
+          image: databench/customervaluation-consumer:0.4.1
           command:
             - /bin/bash
             - customervaluation-consumer.sh
