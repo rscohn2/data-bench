@@ -23,7 +23,7 @@
         msg: NotImplemented
       tags:
         - archive
-      when: archive_path is not defined
+      when: archive_path is not defined and doArchving is defined
 
     - name: "archive databench database     "
       debug:
@@ -57,6 +57,7 @@
       with_items:
         - consumers
         - simple-observer
+      ignore_errors: true
       tags:      
         - warmup
 
