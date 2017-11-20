@@ -19,6 +19,8 @@ spec:
                 path: spark-env.sh
               - key: spark-defaults.conf
                 path: spark-defaults.conf
+      nodeSelector:
+        role: workload
       containers:
         - name: consumer-dev
           image: databench/apache-spark-basic
