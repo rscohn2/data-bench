@@ -36,21 +36,26 @@
         label: role=zookeeper
         enabled: false
       spark-ui-proxy:
-        local_port: XXXX
-        remote_port: XXXX
+        local_port: 8080
+        remote_port: 80
         namespace: default
         label: role=spark-ui-proxy
-        enabled: false
+        enabled: true
+      k8s-dashboard:
+        local_port: 8443
+        remote_port: 8443
+        namespace: kube-system
+        label: k8s-app=kubernetes-dashboard
     
   tasks:
 
-    - name: " stop kubernetes port-forwarding"
+    - name: "stop kubernetes port-forwarding     "
       command: "pkill -9 -f kubectl.+port-forward"
       ignore_errors: true
       tags:
         - stop
 
-    - name: "find grafana pod name           "
+    - name: "find grafana pod name                "
       command:
         kubectl get pods -n kube-system -l k8s-app=grafana
         -o jsonpath='{.items[0].metadata.name}'
@@ -59,7 +64,7 @@
         - grafana
         - start
 
-    - name: "start grafana port-forwarding   "
+    - name: "start grafana port-forwarding        "
       command:
         "kubectl port-forward {{grafana.stdout}} 3000:3000 -n kube-system"
       async: "{{one_month}}"
@@ -68,7 +73,7 @@
         - grafana
         - start
 
-    - name: "find influxdb pod name          "
+    - name: "find influxdb pod name               "
       command:
         kubectl get pods -n kube-system -l k8s-app=influxdb
         -o jsonpath='{.items[0].metadata.name}'
@@ -77,7 +82,7 @@
         - influxdb
         - start
 
-    - name: "start influxdb port-forwarding  "
+    - name: "start influxdb port-forwarding       "
       command:
         "kubectl port-forward {{influxdb.stdout}} 8086:8086 -n kube-system"
       async: "{{one_month}}"
@@ -86,7 +91,7 @@
         - influxdb
         - start
 
-    - name: "find kafka pod name             "
+    - name: "find kafka pod name                  "
       command:
         kubectl get pods -n default -l role=kafka
         -o jsonpath='{.items[0].metadata.name}'
@@ -95,14 +100,53 @@
         - kafka
         - start
 
-    - name: "start kafka port-forwarding     "
-      shell:
-        "kubectl port-forward {{kafka.stdout}} 9092:9092"
+    - name: "start kafka port-forwarding          "
+      command:
+        "kubectl port-forward {{kafka.stdout}} 9092:9092 -n default"
       async: "{{one_month}}"
       poll: 0
       tags:
         - kafka
         - start
+
+        
+    - name: "find spark-ui-proxy pod name         "
+      command:
+        kubectl get pods -n default -l role=spark-ui-proxy
+        -o jsonpath='{.items[0].metadata.name}'
+      register: sparkproxy
+      tags:
+        - spark-ui-proxy
+        - start
+        
+    - name: "start spark-ui-proxy port-forwarding "
+      command:
+        "kubectl port-forward {{sparkproxy.stdout}} 8080:80 -n default"
+      async: "{{one_month}}"
+      poll: 0
+      tags:
+        - spark-ui-proxy
+        - start
+
+    - name: "find k8s-dashboard pod name          "
+      command:
+        kubectl get pods -n kube-system -l role=k8s-dashboard
+        -o jsonpath='{.items[0].metadata.name}'
+      register: k8s-dashboard
+      tags:
+        - k8s-dashboard
+        - start
+
+        
+    - name: "start k8s-dashboard port-forwarding  "
+      command:
+        "kubectl port-forward {{k8s-dashboard.stdout}} 8080:80 -n kube-system"
+      async: "{{one_month}}"
+      poll: 0
+      tags:
+        - k8s-dashboard
+        - start
+        
 
     - name: "the whole enchilada"
       shell:
