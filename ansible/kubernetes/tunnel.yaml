@@ -35,6 +35,18 @@
         namespace: default
         label: role=zookeeper
         enabled: false
+      spark-ui-proxy:
+        local_port: 8080
+        remote_port: 80
+        namespace: default
+        label: role=spark-ui-proxy
+        enabled: true
+      k8s-dashboard:
+        local_port: 8443
+        remote_port: 8443
+        namespace: kube-system
+        label: k8s-app=kubernetes-dashboard
+        
   tasks:
     - name: "destroy ssh tunnels on localhost"
       command: pkill -9 -f ssh.+localhost.+sleep
