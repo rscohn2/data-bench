@@ -4,6 +4,7 @@
     scale_0_1: --current-replicas=0 --replicas=1
     scale_1_0: --current-replicas=1 --replicas=0
     telemetry_workload: sleep 10s
+    observer: simple-observer
     
   tasks:
     - name: "stop workload pods and observer"
@@ -33,44 +34,49 @@
       when: archive_path is defined
 
     - name: "flush influx databench database"
-      debug:
-        msg: NotImplemented
+      command:
+        kubectl scale {{item}} deployment/monitoring-influxdb -n kube-system
+      with_items:
+        - --replicas=0
+        - --replicas=1
       tags:
         - flush
   
     - name: "flush kafka topics             "
       command: "kubectl scale {{item}} statefulset/kafka"
       with_items:
-        - "{{scale_1_0}}"
-        - "{{scale_0_1}}"
+        - --replicas=0
+        - --replicas=1        
       tags:
         - flush
 
-    - name: "generate a new run identifier  "
-      debug:
-        msg: NotImplemented
+    - name: "start observer                 "
+      command:
+        "kubectl scale {{scale_0_1}} statefulset/{{observer}}"
       tags:
-        - init
-
-    - name: "start consumers/observers      "
-      command: "kubectl scale {{scale_0_1}} statefulset/{{item}}"
-      with_items:
-        - consumers
-        - simple-observer
-      ignore_errors: true
-      tags:      
-        - warmup
+        - start
+        - start-observer
+      
+    - name: "start consumers                "
+      command:
+        "kubectl scale {{scale_0_1}} statefulset/consumers"
+      tags:
+        - start
+        - start-consumers
 
     - name: "start telemetry                 "
       debug:
         msg: NotImplemented
       tags:
         - start
+        - start-telemetry
+        
 
     - name: "start generators                "
-      command: "kubectl scale {{scale_0_1}} statefulset/{{item}}"
+      command:
+        "kubectl scale {{scale_0_1}} statefulset/{{item}}"
       with_items:
         - generators
       tags:
         - start
-
+        - start-generators
