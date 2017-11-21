@@ -19,6 +19,9 @@ spec:
                 path: spark-env.sh
               - key: spark-defaults.conf
                 path: spark-defaults.conf
+        - name: spark-data
+          hostPath:
+            path: /export/scratch/consumer-dev
       nodeSelector:
         role: workload
       containers:
@@ -31,9 +34,11 @@ spec:
             - configMapRef:
                 name: databench-env
             - configMapRef:
-                name: spark-env
+                name: spark-shared-env
           volumeMounts:
             - name: spark-conf
               mountPath: "/usr/share/apache-spark/conf"
+            - name: spark-data              
+              mountPath: /scratch
               
           
