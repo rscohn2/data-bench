@@ -130,7 +130,7 @@
 
     - name: "find k8s-dashboard pod name          "
       command:
-        kubectl get pods -n kube-system -l role=k8s-dashboard
+        kubectl get pods -n kube-system -l k8s-app=kubernetes-dashboard
         -o jsonpath='{.items[0].metadata.name}'
       register: k8s-dashboard
       tags:
