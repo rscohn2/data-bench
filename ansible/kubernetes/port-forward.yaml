@@ -132,7 +132,7 @@
       command:
         kubectl get pods -n kube-system -l k8s-app=kubernetes-dashboard
         -o jsonpath='{.items[0].metadata.name}'
-      register: k8s-dashboard
+      register: k8sdashboard
       tags:
         - k8s-dashboard
         - start
@@ -140,7 +140,7 @@
         
     - name: "start k8s-dashboard port-forwarding  "
       command:
-        "kubectl port-forward {{k8s-dashboard.stdout}} 8080:80 -n kube-system"
+        "kubectl port-forward {{k8sdashboard.stdout}} 8080:80 -n kube-system"
       async: "{{one_month}}"
       poll: 0
       tags:
