@@ -46,7 +46,7 @@
         remote_port: 8443
         namespace: kube-system
         label: k8s-app=kubernetes-dashboard
-        
+        enabled: true
   tasks:
     - name: "destroy ssh tunnels on localhost"
       command: pkill -9 -f ssh.+localhost.+sleep
