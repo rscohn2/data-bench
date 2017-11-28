@@ -41,6 +41,7 @@
         ports: 8443:8443
         namespace: kube-system
         label: k8s-app=kubernetes-dashboard
+        enabled: true
     
   tasks:
     - name: "stop kubernetes port-forwarding     "
@@ -88,7 +89,7 @@
     - name: "start influxdb port-forwarding       "
       command:
         kubectl port-forward {{influxdb.stdout}}
-        {{services.influxdb.port}}
+        {{services.influxdb.ports}}
         -n {{services.influxdb.namespace}}
       async: "{{one_month}}"
       poll: 0
