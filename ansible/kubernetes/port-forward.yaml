@@ -4,6 +4,7 @@
   user: root
   vars:
     one_month: 2592000 # 60*60*24*30 - 1 month
+    enchilada: false
     services:
       grafana:
         name: ''
@@ -156,7 +157,6 @@
       tags:
         - k8s-dashboard
         - start
-
         
     - name: "start k8s-dashboard port-forwarding  "
       command:
@@ -183,7 +183,7 @@
       async: "{{one_month}}"
       poll: 0
       with_dict: "{{services}}"
-      when: false and item.value.enabled
+      when: enchilada and item.value.enabled
       tags:
         - enchilada
 
