@@ -140,7 +140,7 @@
         
     - name: "start k8s-dashboard port-forwarding  "
       command:
-        "kubectl port-forward {{k8sdashboard.stdout}} 8080:80 -n kube-system"
+        "kubectl port-forward {{k8sdashboard.stdout}} 8443:8443 -n kube-system"
       async: "{{one_month}}"
       poll: 0
       tags:
