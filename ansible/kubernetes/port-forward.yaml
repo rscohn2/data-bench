@@ -6,49 +6,42 @@
     one_month: 2592000 # 60*60*24*30 - 1 month
     services:
       grafana:
-        local_port: 3000
-        remote_port: 3000
+        name: ''
+        ports: 3000:3000
         namespace: kube-system
         label: k8s-app=grafana
         enabled: true
       influxdb:
-        local_port: 8086
-        remote_port: 8086
+        ports: 8086:8086
         namespace: kube-system
         label: k8s-app=influxdb
         enabled: true
       kafka:
-        local_port: 9092
-        remote_port: 9092
+        ports: 9092:9092
         namespace: default
         label: role=kafka
         enabled: true
       cassandra:
-        local_port: 9042
-        remote_port: 9042
+        ports: 9042:9042
         namespace: default
         label: role=cassandra
         enabled: false
       zookeeper:
-        local_port: 2888
-        remote_port: 2888
+        ports: 2888:2888
         namespace: default
         label: role=zookeeper
         enabled: false
-      spark-ui-proxy:
-        local_port: 8080
-        remote_port: 80
+      spark_ui_proxy:
+        ports: 8080:80
         namespace: default
         label: role=spark-ui-proxy
         enabled: true
-      k8s-dashboard:
-        local_port: 8443
-        remote_port: 8443
+      k8s_dashboard:
+        ports: 8443:8443
         namespace: kube-system
         label: k8s-app=kubernetes-dashboard
     
   tasks:
-
     - name: "stop kubernetes port-forwarding     "
       command: "pkill -9 -f kubectl.+port-forward"
       ignore_errors: true
@@ -57,54 +50,72 @@
 
     - name: "find grafana pod name                "
       command:
-        kubectl get pods -n kube-system -l k8s-app=grafana
+        kubectl get pods
+        -n {{services.grafana.namespace}}
+        -l {{services.grafana.label}}
         -o jsonpath='{.items[0].metadata.name}'
       register: grafana
+      when: services.grafana.enabled
       tags:
         - grafana
         - start
 
     - name: "start grafana port-forwarding        "
       command:
-        "kubectl port-forward {{grafana.stdout}} 3000:3000 -n kube-system"
+        kubectl port-forward {{grafana.stdout}}
+        {{services.grafana.ports}}
+        -n {{services.grafana.namespace}}
       async: "{{one_month}}"
       poll: 0
+      when: services.grafana.enabled
       tags:
         - grafana
         - start
 
     - name: "find influxdb pod name               "
       command:
-        kubectl get pods -n kube-system -l k8s-app=influxdb
+        kubectl get pods
+        -n {{services.influxdb.namespace}}
+        -l {{services.influxdb.label}}
         -o jsonpath='{.items[0].metadata.name}'
       register: influxdb
+      when: services.influxdb.enabled
       tags:
         - influxdb
         - start
 
     - name: "start influxdb port-forwarding       "
       command:
-        "kubectl port-forward {{influxdb.stdout}} 8086:8086 -n kube-system"
+        kubectl port-forward {{influxdb.stdout}}
+        {{services.influxdb.port}}
+        -n {{services.influxdb.namespace}}
       async: "{{one_month}}"
       poll: 0
+      when: services.influxdb.enabled
       tags:
         - influxdb
         - start
 
     - name: "find kafka pod name                  "
       command:
-        kubectl get pods -n default -l role=kafka
+        kubectl get pods
+        -n {{services.kafka.namespace}}
+        -l role=kafka
         -o jsonpath='{.items[0].metadata.name}'
       register: kafka
+      when: services.kafka.enabled
       tags:
         - kafka
         - start
 
     - name: "start kafka port-forwarding          "
       command:
-        "kubectl port-forward {{kafka.stdout}} 9092:9092 -n default"
+        kubectl port-forward {{kafka.stdout}}
+        {{services.kafka.ports}}
+        -n {{services.kafka.namespace}}
       async: "{{one_month}}"
       poll: 0
+      when: services.kafka.enabled
       tags:
         - kafka
         - start
@@ -112,27 +123,36 @@
         
     - name: "find spark-ui-proxy pod name         "
       command:
-        kubectl get pods -n default -l role=spark-ui-proxy
+        kubectl get pods
+        -n {{services.spark_ui_proxy.namespace}}
+        -l role=spark-ui-proxy
         -o jsonpath='{.items[0].metadata.name}'
       register: sparkproxy
+      when: services.spark_ui_proxy.enabled
       tags:
         - spark-ui-proxy
         - start
         
     - name: "start spark-ui-proxy port-forwarding "
       command:
-        "kubectl port-forward {{sparkproxy.stdout}} 8080:80 -n default"
+        kubectl port-forward {{sparkproxy.stdout}}
+        {{services.spark_ui_proxy.ports}}
+        -n {{services.spark_ui_proxy.namespace}}
       async: "{{one_month}}"
       poll: 0
+      when: services.spark_ui_proxy.enabled
       tags:
         - spark-ui-proxy
         - start
 
     - name: "find k8s-dashboard pod name          "
       command:
-        kubectl get pods -n kube-system -l k8s-app=kubernetes-dashboard
+        kubectl get pods
+        -n {{services.k8s_dashboard.namespace}}
+        -l k8s-app=kubernetes-dashboard
         -o jsonpath='{.items[0].metadata.name}'
       register: k8sdashboard
+      when: services.k8s_dashboard.enabled
       tags:
         - k8s-dashboard
         - start
@@ -140,9 +160,12 @@
         
     - name: "start k8s-dashboard port-forwarding  "
       command:
-        "kubectl port-forward {{k8sdashboard.stdout}} 8080:80 -n kube-system"
+        kubectl port-forward {{k8sdashboard.stdout}}
+        {{services.k8s_dashboard.ports}}
+        -n {{services.k8s_dashboard.namespace}}
       async: "{{one_month}}"
       poll: 0
+      when: services.k8s_dashboard.enabled
       tags:
         - k8s-dashboard
         - start
@@ -150,10 +173,13 @@
 
     - name: "the whole enchilada"
       shell:
-        kubectl get pods -l {{item.value.label}} -n {{item.value.namespace}}
+        kubectl get pods
+        -l {{item.value.label}}
+        -n {{item.value.namespace}}
         -o jsonpath='{.items[0].metadata.name}' |
-        xargs -I= kubectl port-forward = -n {{item.value.namespace}}
-        {{item.value.local_port}}:{{item.value.remote_port}}
+        xargs -I= kubectl port-forward =
+        -n {{item.value.namespace}}
+        {{item.value.ports}}
       async: "{{one_month}}"
       poll: 0
       with_dict: "{{services}}"
