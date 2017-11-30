@@ -72,8 +72,18 @@ playbook: port-forward.yaml
 
   play #1 (master): master	TAGS: []
     tasks:
-       stop kubernetes port-forwarding	TAGS: [stop]
-      start kubernetes port-forwarding	TAGS: [start]	
+      stop kubernetes port-forwarding     	TAGS: [stop]
+      find grafana pod name                	TAGS: [grafana, start]
+      start grafana port-forwarding        	TAGS: [grafana, start]
+      find influxdb pod name               	TAGS: [influxdb, start]
+      start influxdb port-forwarding       	TAGS: [influxdb, start]
+      find kafka pod name                  	TAGS: [kafka, start]
+      start kafka port-forwarding          	TAGS: [kafka, start]
+      find spark-ui-proxy pod name         	TAGS: [spark-ui-proxy, start]
+      start spark-ui-proxy port-forwarding 	TAGS: [spark-ui-proxy, start]
+      find k8s-dashboard pod name          	TAGS: [k8s-dashboard, start]
+      start k8s-dashboard port-forwarding  	TAGS: [k8s-dashboard, start]
+      the whole enchilada                  	TAGS: [enchilada]    
 ```
 
 ## tunnel.yaml
