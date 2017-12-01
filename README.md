@@ -123,7 +123,7 @@ The storage requirements for the current version of Data Bench are quite minimal
 - Transaction Consumers: none
 
 
-### Software Prequisites
+### Software Prerequisites
 
 > "Build a benchmark" they said.<br>
 > "It will be fun" they said.
